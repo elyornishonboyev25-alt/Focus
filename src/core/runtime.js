@@ -1,0 +1,25 @@
+export const runtime = {
+  state: {
+    templates: null,
+    completions: {},
+    custom: {},
+    pom: null,
+    stats: null,
+    prefs: null,
+    exams: [],
+  },
+  selectedDate: new Date(),
+  page: "today",
+  manageDay: "Weekdays",
+  focusTimer: null,
+  studyTimer: null,
+  studyInterval: null,
+  studyAudio: null,
+  skipUnloadSave: false,
+  tablePage: 0,
+  tableGroup: "Weekdays",
+  menuOpen: false,
+  renderedDay: "",
+  brownNoiseFrame: null,
+};
+runtime.selectedDate.setHours(12, 0, 0, 0);

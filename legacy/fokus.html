@@ -1,0 +1,2575 @@
+<!DOCTYPE html>
+<!-- saved from url=(0044)file:///C:/Users/User/Downloads/Fokus_2.html -->
+<html lang="uz" data-theme="dark"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FOKUS — Kunlik rivojlanish tizimi</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Manrope:wght@400;500;600;700;800&display=swap');
+
+:root{
+  --bg:#1b1722;
+  --bg-elevated:#262030;
+  --bg-elevated-2:#322a3c;
+  --text-primary:#f3eff6;
+  --text-secondary:#b6adc1;
+  --text-muted:#7a7187;
+  --accent:#e8a33d;
+  --accent-ink:#241a0a;
+  --accent-soft:rgba(232,163,61,.16);
+  --done:#84ad81;
+  --done-soft:rgba(132,173,129,.16);
+  --danger:#d96c6c;
+  --danger-soft:rgba(217,108,108,.14);
+  --border:#3a3247;
+  --shadow:0 18px 40px -24px rgba(0,0,0,.7);
+  --font-display:'Space Mono',monospace;
+  --font-body:'Manrope',sans-serif;
+  --radius:18px;
+  --radius-sm:11px;
+}
+[data-theme="light"]{
+  --bg:#f4f0e9;
+  --bg-elevated:#ffffff;
+  --bg-elevated-2:#efe8dd;
+  --text-primary:#241f29;
+  --text-secondary:#574f61;
+  --text-muted:#897f93;
+  --accent:#c47d1c;
+  --accent-ink:#fff7ec;
+  --accent-soft:rgba(196,125,28,.13);
+  --done:#4f7a4c;
+  --done-soft:rgba(79,122,76,.14);
+  --danger:#c1504f;
+  --danger-soft:rgba(193,80,79,.12);
+  --border:#e3dace;
+  --shadow:0 18px 38px -26px rgba(60,40,10,.32);
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0;min-height:100vh;
+  background:
+    radial-gradient(circle at 18% -8%,color-mix(in srgb,var(--accent) 12%,transparent) 0%,transparent 42%),
+    var(--bg);
+  color:var(--text-primary);
+  font-family:var(--font-body);
+  -webkit-font-smoothing:antialiased;
+  display:flex;justify-content:center;
+  padding:26px 16px 80px;
+  transition:background .35s ease,color .35s ease;
+}
+.app{width:100%;max-width:760px;}
+
+/* ---------- header ---------- */
+.topbar{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:18px;flex-wrap:wrap;}
+.brand .eyebrow{font-family:var(--font-display);font-size:11px;letter-spacing:.22em;color:var(--accent);text-transform:uppercase;margin-bottom:4px;}
+.brand h1{font-size:30px;margin:0;font-weight:800;letter-spacing:-.02em;display:flex;align-items:center;gap:9px;}
+.brand h1 .pulse{width:9px;height:9px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 0 var(--accent-soft);animation:beat 2.4s infinite;}
+@keyframes beat{0%{box-shadow:0 0 0 0 var(--accent-soft)}70%{box-shadow:0 0 0 9px transparent}100%{box-shadow:0 0 0 0 transparent}}
+.bar-right{display:flex;align-items:center;gap:12px;}
+.datebox{text-align:right;line-height:1.25;}
+.datebox .d-day{font-family:var(--font-display);font-weight:700;font-size:14px;}
+.datebox .d-wk{font-size:11px;color:var(--text-muted);text-transform:capitalize;}
+.theme-btn{width:42px;height:42px;border-radius:12px;border:1px solid var(--border);background:var(--bg-elevated);color:var(--text-primary);cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;transition:.2s;}
+.theme-btn:hover{border-color:var(--accent);color:var(--accent);}
+
+/* ---------- nav ---------- */
+.nav{display:flex;gap:4px;background:var(--bg-elevated);border:1px solid var(--border);border-radius:14px;padding:5px;margin-bottom:22px;overflow-x:auto;}
+.nav button{flex:1;min-width:84px;border:none;background:transparent;color:var(--text-secondary);font-family:var(--font-body);font-weight:700;font-size:13.5px;padding:11px 8px;border-radius:10px;cursor:pointer;transition:.18s;white-space:nowrap;display:flex;align-items:center;justify-content:center;gap:6px;}
+.nav button .ic{font-size:15px;}
+.nav button:hover{color:var(--text-primary);}
+.nav button.active{background:var(--accent);color:var(--accent-ink);}
+
+/* ---------- generic ---------- */
+.view{display:none;animation:fade .35s ease;}
+.view.active{display:block;}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.card{background:var(--bg-elevated);border:1px solid var(--border);border-radius:var(--radius);padding:22px;margin-bottom:16px;box-shadow:var(--shadow);}
+.card-title{font-family:var(--font-display);font-size:11.5px;text-transform:uppercase;letter-spacing:.12em;color:var(--text-muted);margin:0 0 16px;display:flex;align-items:center;justify-content:space-between;gap:10px;}
+.btn{font-family:var(--font-body);font-weight:700;font-size:14px;border-radius:11px;padding:11px 18px;border:1.5px solid transparent;cursor:pointer;transition:transform .14s,border-color .18s,opacity .18s;display:inline-flex;align-items:center;gap:7px;justify-content:center;}
+.btn:active{transform:scale(.97);}
+.btn-primary{background:var(--accent);color:var(--accent-ink);}
+.btn-secondary{background:transparent;border-color:var(--border);color:var(--text-primary);}
+.btn-secondary:hover{border-color:var(--accent);}
+.btn-danger{background:transparent;border-color:var(--danger);color:var(--danger);}
+.btn-block{width:100%;padding:14px;font-size:15px;}
+.btn:disabled{opacity:.4;cursor:not-allowed;}
+.text-btn{background:none;border:none;color:var(--text-muted);font-size:12px;cursor:pointer;text-decoration:underline;padding:0;font-family:var(--font-body);}
+.text-btn:hover{color:var(--danger);}
+
+/* ---------- today hero ---------- */
+.hero{display:flex;gap:22px;align-items:center;flex-wrap:wrap;}
+.ring-wrap{position:relative;width:128px;height:128px;flex-shrink:0;}
+.ring-wrap svg{transform:rotate(-90deg);}
+.ring-bg{stroke:var(--bg-elevated-2);}
+.ring-fg{stroke:var(--accent);stroke-linecap:round;transition:stroke-dashoffset .6s cubic-bezier(.4,0,.2,1),stroke .3s;}
+.ring-fg.full{stroke:var(--done);}
+.ring-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+.ring-center .pct{font-family:var(--font-display);font-weight:700;font-size:30px;line-height:1;}
+.ring-center .lbl{font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.1em;margin-top:3px;}
+.hero-info{flex:1;min-width:200px;}
+.hero-status{font-size:17px;font-weight:800;margin-bottom:4px;}
+.hero-sub{font-size:13px;color:var(--text-secondary);margin-bottom:16px;}
+.mini-stats{display:flex;gap:10px;flex-wrap:wrap;}
+.mstat{background:var(--bg-elevated-2);border:1px solid var(--border);border-radius:12px;padding:10px 13px;min-width:92px;}
+.mstat .v{font-family:var(--font-display);font-weight:700;font-size:18px;}
+.mstat .k{font-size:10.5px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;margin-top:2px;}
+
+/* ---------- task list ---------- */
+.task-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px;}
+.task{display:flex;align-items:center;gap:12px;background:var(--bg-elevated-2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:11px 13px;transition:border-color .18s,opacity .18s,background .15s;}
+.task[draggable="true"],.tpl[draggable="true"]{cursor:grab;}
+.task.dragging,.tpl.dragging{opacity:.45;border-style:dashed;border-color:var(--accent);cursor:grabbing;}
+.grip{color:var(--text-muted);font-size:14px;letter-spacing:-3px;flex-shrink:0;user-select:none;cursor:grab;opacity:.7;}
+.grip:hover{color:var(--accent);opacity:1;}
+.task.done{opacity:.62;}
+.checkbox{width:24px;height:24px;border-radius:8px;border:2px solid var(--border);background:transparent;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;color:transparent;font-size:14px;font-weight:800;transition:.15s;}
+.checkbox:hover{border-color:var(--accent);}
+.task.done .checkbox{background:var(--done);border-color:var(--done);color:#fff;}
+.t-time{font-family:var(--font-display);font-weight:700;font-size:13px;color:var(--accent);width:46px;flex-shrink:0;text-align:center;}
+.t-time.none{color:var(--text-muted);opacity:.5;}
+.t-main{flex:1;min-width:0;}
+.t-label{font-size:14.5px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.task.done .t-label{text-decoration:line-through;}
+.t-meta{display:flex;align-items:center;gap:8px;margin-top:3px;}
+.cat-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.t-cat{font-size:11px;color:var(--text-muted);}
+.t-dur{font-family:var(--font-display);font-size:11px;color:var(--text-muted);}
+.t-actions{display:flex;gap:4px;flex-shrink:0;}
+.icon-btn{width:28px;height:28px;border-radius:8px;border:1px solid var(--border);background:transparent;color:var(--text-secondary);cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center;transition:.15s;}
+.icon-btn:hover{border-color:var(--accent);color:var(--accent);}
+.icon-btn.danger:hover{border-color:var(--danger);color:var(--danger);}
+.empty{display:flex;flex-direction:column;align-items:center;gap:8px;padding:26px 0;color:var(--text-muted);font-size:13.5px;text-align:center;}
+.empty .e-ic{font-size:26px;opacity:.7;}
+
+/* ---------- forms ---------- */
+.form-grid{display:flex;gap:9px;flex-wrap:wrap;align-items:flex-end;}
+.field{display:flex;flex-direction:column;gap:5px;}
+.field label{font-size:11px;color:var(--text-muted);font-weight:600;}
+.field input,.field select{font-family:var(--font-body);background:var(--bg-elevated-2);border:1px solid var(--border);border-radius:9px;color:var(--text-primary);padding:10px 11px;font-size:14px;transition:.15s;}
+.field input:focus,.field select:focus{outline:none;border-color:var(--accent);}
+.field.grow{flex:1;min-width:150px;}
+.field input[type=time],.field input[type=number]{font-family:var(--font-display);}
+.f-label input{width:100%;}
+.f-time input{width:108px;}
+.f-num input{width:78px;}
+.daypick{display:flex;gap:5px;flex-wrap:wrap;}
+.daypick button{width:34px;height:34px;border-radius:9px;border:1px solid var(--border);background:var(--bg-elevated-2);color:var(--text-secondary);cursor:pointer;font-size:12px;font-weight:700;font-family:var(--font-display);}
+.daypick button.on{background:var(--accent-soft);border-color:var(--accent);color:var(--accent);}
+
+/* ---------- template list ---------- */
+.tpl{display:flex;align-items:center;gap:12px;background:var(--bg-elevated-2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:11px 13px;}
+.tpl.off{opacity:.5;}
+.tpl-main{flex:1;min-width:0;}
+.tpl-label{font-size:14.5px;font-weight:700;}
+.tpl-sub{font-size:11.5px;color:var(--text-muted);margin-top:2px;display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
+.toggle{width:42px;height:24px;border-radius:999px;background:var(--bg-elevated);border:1px solid var(--border);position:relative;cursor:pointer;flex-shrink:0;transition:.2s;}
+.toggle::after{content:'';position:absolute;top:2px;left:2px;width:18px;height:18px;border-radius:50%;background:var(--text-muted);transition:.2s;}
+.toggle.on{background:var(--accent-soft);border-color:var(--accent);}
+.toggle.on::after{left:20px;background:var(--accent);}
+
+/* ---------- timer ---------- */
+.stage-card{background:var(--bg-elevated);border:1px solid var(--border);border-radius:var(--radius);padding:32px 22px 22px;text-align:center;box-shadow:var(--shadow);margin-bottom:16px;}
+#stageProgressLabel{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);margin-bottom:10px;font-family:var(--font-display);}
+.big-clock{font-family:var(--font-display);font-weight:700;font-size:clamp(46px,13vw,74px);font-variant-numeric:tabular-nums;line-height:1;}
+.big-clock.done-state{color:var(--done);font-size:56px;}
+.stage-label{margin-top:10px;font-size:15px;color:var(--text-secondary);font-weight:700;}
+#totalRemaining{margin-top:6px;font-size:12px;color:var(--text-muted);min-height:16px;font-family:var(--font-display);}
+.track-wrap{overflow-x:auto;padding:18px 4px 4px;}
+.track{display:flex;align-items:flex-start;width:max-content;margin:0 auto;padding:0 4px;}
+.connector{width:26px;height:2px;background:var(--border);margin-top:16px;flex-shrink:0;transition:background .3s;}
+.connector.done{background:var(--done);}
+.station{display:flex;flex-direction:column;align-items:center;width:66px;flex-shrink:0;}
+.dot{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:13px;font-weight:700;border:2px solid var(--border);color:var(--text-muted);background:var(--bg-elevated-2);transition:all .25s;}
+.station.done .dot{background:var(--done-soft);border-color:var(--done);color:var(--done);}
+.station.active .dot{background:var(--accent-soft);border-color:var(--accent);color:var(--accent);animation:pulse 1.6s infinite;}
+.station .meta{margin-top:6px;font-size:10px;line-height:1.35;text-align:center;color:var(--text-muted);max-width:66px;overflow:hidden;text-overflow:ellipsis;}
+.station.active .meta,.station.done .meta{color:var(--text-secondary);}
+@keyframes pulse{0%{box-shadow:0 0 0 0 var(--accent-soft)}70%{box-shadow:0 0 0 9px transparent}100%{box-shadow:0 0 0 0 transparent}}
+.controls{display:flex;gap:9px;margin-top:8px;flex-wrap:wrap;justify-content:center;}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;}
+.chip{background:var(--bg-elevated-2);border:1px solid var(--border);color:var(--text-secondary);font-size:12.5px;font-weight:600;padding:6px 12px;border-radius:999px;cursor:pointer;font-family:var(--font-body);}
+.chip:hover{border-color:var(--accent);color:var(--accent);}
+.queue-list{list-style:none;margin:14px 0 0;padding:0;display:flex;flex-direction:column;gap:6px;}
+.queue-item{display:flex;align-items:center;gap:10px;background:var(--bg-elevated-2);border:1px solid var(--border);border-radius:10px;padding:9px 12px;font-size:13.5px;}
+.queue-item[draggable="true"]{cursor:grab;}
+.queue-item.dragging{opacity:.45;border-style:dashed;border-color:var(--accent);cursor:grabbing;}
+.queue-item.drop-target{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent) inset;}
+.qi-grip{color:var(--text-muted);font-size:14px;letter-spacing:-3px;flex-shrink:0;user-select:none;cursor:grab;padding-right:2px;}
+.qi-index{font-family:var(--font-display);color:var(--text-muted);width:16px;flex-shrink:0;}
+.qi-time{font-family:var(--font-display);font-weight:700;color:var(--accent);width:64px;flex-shrink:0;}
+.qi-label{flex:1;color:var(--text-secondary);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.queue-item.editing{display:block;padding:12px;}
+.queue-item .edit-form .ed-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
+.queue-item .qe-min,.queue-item .qe-sec{width:70px;font-family:var(--font-display);}
+.queue-item .qe-label{flex:1;min-width:130px;}
+.queue-hint{font-size:11.5px;color:var(--text-muted);margin-top:10px;display:flex;align-items:center;gap:6px;}
+.list-footer{display:flex;justify-content:space-between;align-items:center;margin-top:14px;font-size:12px;color:var(--text-muted);min-height:18px;font-family:var(--font-display);}
+
+/* ---------- stats ---------- */
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:12px;}
+.bigstat{background:var(--bg-elevated-2);border:1px solid var(--border);border-radius:13px;padding:15px;}
+.bigstat .v{font-family:var(--font-display);font-weight:700;font-size:25px;line-height:1;}
+.bigstat .v small{font-size:14px;color:var(--text-muted);}
+.bigstat .k{font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.05em;margin-top:6px;}
+.bigstat.accent .v{color:var(--accent);}
+.bigstat.done .v{color:var(--done);}
+
+.heat{display:flex;gap:4px;overflow-x:auto;padding-bottom:4px;}
+.heat-col{display:flex;flex-direction:column;gap:4px;}
+.heat-cell{width:15px;height:15px;border-radius:4px;background:var(--bg-elevated-2);border:1px solid var(--border);}
+.heat-legend{display:flex;align-items:center;gap:6px;justify-content:flex-end;margin-top:10px;font-size:11px;color:var(--text-muted);}
+.heat-legend .hc{width:13px;height:13px;border-radius:4px;border:1px solid var(--border);}
+
+.bars{display:flex;align-items:stretch;gap:6px;height:158px;margin-top:8px;}
+.bar-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:5px;min-width:0;}
+.bar-val{font-size:9px;font-family:var(--font-display);color:var(--text-muted);height:12px;line-height:12px;}
+.bar-track{flex:1;width:100%;max-width:26px;display:flex;align-items:flex-end;}
+.bar{width:100%;border-radius:6px 6px 3px 3px;background:var(--accent-soft);border:1px solid var(--accent);transition:height .45s cubic-bezier(.4,0,.2,1);}
+.bar.ok{background:var(--accent-soft);border-color:var(--accent);}
+.bar.full{background:var(--done-soft);border-color:var(--done);}
+.bar.nodata{background:var(--bg-elevated-2);border-color:var(--border);}
+.bar.today{box-shadow:0 0 0 2px var(--accent-soft);}
+.bar-lab{font-size:9.5px;color:var(--text-muted);font-family:var(--font-display);white-space:nowrap;}
+.bar-lab.today{color:var(--accent);font-weight:700;}
+
+.catbar{margin-bottom:11px;}
+.catbar-top{display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:5px;}
+.catbar-top .name{display:flex;align-items:center;gap:7px;font-weight:600;}
+.catbar-top .val{font-family:var(--font-display);color:var(--text-muted);font-size:11.5px;}
+.catbar-track{height:9px;border-radius:99px;background:var(--bg-elevated-2);overflow:hidden;}
+.catbar-fill{height:100%;border-radius:99px;transition:width .5s;}
+
+.month-nav{display:flex;align-items:center;gap:10px;}
+.month-nav button{width:30px;height:30px;border-radius:8px;border:1px solid var(--border);background:transparent;color:var(--text-primary);cursor:pointer;font-size:14px;}
+.month-nav button:hover{border-color:var(--accent);color:var(--accent);}
+.month-nav .m-label{font-family:var(--font-display);font-weight:700;font-size:13px;min-width:120px;text-align:center;}
+
+/* ---------- PiP mini ---------- */
+.mini-panel{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;background:var(--bg);font-family:var(--font-body);padding:12px 16px;}
+.mini-eyebrow{font-family:var(--font-display);font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);}
+.mini-clock{font-family:var(--font-display);font-weight:700;font-size:40px;line-height:1;font-variant-numeric:tabular-nums;color:var(--text-primary);}
+.mini-clock.mini-done{color:var(--done);}
+.mini-label{font-size:11.5px;font-weight:700;color:var(--text-secondary);text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;}
+.mini-progress{font-size:10px;color:var(--text-muted);}
+.mini-bar-wrap{width:80%;height:3px;background:var(--border);border-radius:2px;overflow:hidden;margin-top:2px;}
+.mini-bar-fill{height:100%;width:0%;background:var(--accent);border-radius:2px;}
+.mini-controls{display:flex;gap:6px;margin-top:6px;}
+.mini-btn{background:var(--bg-elevated-2);border:1px solid var(--border);color:var(--text-primary);border-radius:8px;padding:5px 13px;font-size:13px;cursor:pointer;font-family:var(--font-body);font-weight:700;}
+.mini-btn:hover{border-color:var(--accent);color:var(--accent);}
+.pip-notice{margin-top:12px;font-size:12px;line-height:1.5;color:var(--text-secondary);background:var(--bg-elevated-2);border:1px solid var(--border);border-radius:10px;padding:11px 14px;text-align:center;}
+
+.footnote{text-align:center;font-size:11.5px;color:var(--text-muted);margin-top:8px;line-height:1.6;}
+.footnote button{margin:0 4px;}
+
+/* schedule + editing */
+.sched-banner{background:var(--bg-elevated-2);border:1px solid var(--border);border-radius:11px;padding:10px 14px;margin-bottom:13px;font-size:12px;color:var(--text-secondary);display:flex;gap:16px;flex-wrap:wrap;font-family:var(--font-display);}
+.sched-banner b{color:var(--text-primary);font-weight:700;}
+.sched-banner .warn{color:var(--danger);font-weight:700;}
+.t-range{font-family:var(--font-display);font-size:11px;color:var(--text-muted);}
+.t-over{font-size:10px;color:var(--danger);font-weight:700;font-family:var(--font-display);}
+.task.editing{background:var(--bg-elevated);border-color:var(--accent);}
+.edit-row{flex:1;display:flex;gap:8px;flex-wrap:wrap;align-items:flex-end;width:100%;}
+.edit-row .field label{font-size:10px;}
+.edit-row .field input,.edit-row .field select{padding:8px 9px;font-size:13px;}
+.edit-row .field.grow{min-width:130px;}
+.edit-row .btn{padding:9px 13px;font-size:13px;}
+.title-tools{display:flex;gap:8px;align-items:center;}
+
+/* ---- schedule + editing ---- */
+.t-time2{display:flex;flex-direction:column;align-items:flex-end;width:62px;flex-shrink:0;line-height:1.25;}
+.t-time2 .ts{font-family:var(--font-display);font-weight:700;font-size:13px;color:var(--accent);}
+.t-time2 .ts.none{color:var(--text-muted);opacity:.5;}
+.t-time2 .te{font-family:var(--font-display);font-size:10px;color:var(--text-muted);white-space:nowrap;}
+.overrun{font-family:var(--font-display);font-size:10px;color:var(--danger);background:var(--danger-soft);padding:1px 6px;border-radius:99px;}
+.sched-strip{display:flex;gap:8px 16px;flex-wrap:wrap;font-size:12px;color:var(--text-secondary);background:var(--bg-elevated-2);border:1px solid var(--border);border-radius:11px;padding:10px 14px;margin-bottom:14px;}
+.sched-strip b{font-family:var(--font-display);color:var(--text-primary);font-weight:700;}
+.sortbtn{font-size:11px;color:var(--text-muted);background:none;border:1px solid var(--border);border-radius:8px;padding:4px 10px;cursor:pointer;font-family:var(--font-body);font-weight:600;white-space:nowrap;}
+.sortbtn:hover{border-color:var(--accent);color:var(--accent);}
+.task.editing,.tpl.editing{display:block;padding:14px;}
+.edit-form{display:flex;flex-direction:column;gap:9px;width:100%;}
+.edit-form input,.edit-form select{font-family:var(--font-body);background:var(--bg);border:1px solid var(--border);border-radius:9px;color:var(--text-primary);padding:9px 10px;font-size:13.5px;}
+.edit-form input:focus,.edit-form select:focus{outline:none;border-color:var(--accent);}
+.edit-form .ed-label{width:100%;font-size:14px;font-weight:600;}
+.edit-form .ed-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
+.edit-form .ed-time{width:112px;font-family:var(--font-display);}
+.edit-form .ed-dur{width:74px;font-family:var(--font-display);}
+.edit-form .ed-cat,.edit-form .ed-rep{flex:1;min-width:130px;}
+.edit-form .daypick button{width:32px;height:32px;}
+.edit-form .ed-actions{display:flex;gap:8px;margin-top:2px;}
+.edit-form .ed-actions .btn{padding:9px 18px;font-size:13px;}
+
+/* ---- carry-over alert ---- */
+.carry-alert{background:linear-gradient(135deg,var(--danger-soft),transparent 70%);border:1.5px solid var(--danger);border-radius:var(--radius);padding:18px 20px;margin-bottom:16px;box-shadow:var(--shadow);animation:fade .35s ease;}
+.carry-alert .ca-head{display:flex;align-items:center;gap:10px;}
+.carry-alert .ca-ic{font-size:22px;animation:beat 1.8s infinite;}
+.carry-alert h3{margin:0;font-size:16px;font-weight:800;color:var(--danger);}
+.carry-alert .ca-sub{font-size:13.5px;color:var(--text-secondary);margin:8px 0 0;line-height:1.55;}
+.carry-alert .ca-sub b{color:var(--text-primary);}
+.ca-rule{font-family:var(--font-display);font-size:10.5px;letter-spacing:.03em;color:var(--danger);background:var(--danger-soft);border:1px solid var(--danger);border-radius:8px;padding:6px 11px;margin-top:12px;display:inline-block;}
+.carry-chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px;}
+.carry-chips .cc{background:var(--bg-elevated-2);border:1px solid var(--border);border-radius:999px;padding:5px 11px;font-size:12px;color:var(--text-secondary);}
+.carry-actions{display:flex;gap:9px;margin-top:14px;flex-wrap:wrap;}
+.carried-badge{font-family:var(--font-display);font-size:9.5px;color:var(--accent);background:var(--accent-soft);padding:1px 6px;border-radius:99px;}
+/* ---- history table ---- */
+.htable-wrap{overflow-x:auto;}
+.htable{width:100%;border-collapse:collapse;font-size:13px;}
+.htable th{text-align:left;font-family:var(--font-display);font-size:10.5px;text-transform:uppercase;letter-spacing:.07em;color:var(--text-muted);font-weight:400;padding:0 10px 10px;border-bottom:1px solid var(--border);}
+.htable td{padding:11px 10px;border-bottom:1px solid var(--border);vertical-align:middle;}
+.htable tr.hrow{cursor:pointer;transition:background .15s;}
+.htable tr.hrow:hover{background:var(--bg-elevated-2);}
+.h-date{font-family:var(--font-display);font-weight:700;white-space:nowrap;}
+.h-date small{display:block;color:var(--text-muted);font-weight:400;font-size:10px;text-transform:capitalize;}
+.h-prog{display:flex;align-items:center;gap:8px;min-width:130px;}
+.h-prog .bar2{flex:1;height:7px;border-radius:99px;background:var(--bg-elevated-2);overflow:hidden;min-width:54px;}
+.h-prog .bar2 i{display:block;height:100%;border-radius:99px;transition:width .4s;}
+.h-pct{font-family:var(--font-display);font-weight:700;width:40px;text-align:right;}
+.h-arrow{display:inline-block;color:var(--text-muted);transition:transform .2s;font-size:11px;}
+.hrow.open .h-arrow{transform:rotate(90deg);color:var(--accent);}
+.h-cell-tasks{font-family:var(--font-display);}
+.h-badge{font-size:11px;font-weight:700;padding:3px 9px;border-radius:99px;white-space:nowrap;}
+.h-badge.full{color:var(--done);background:var(--done-soft);}
+.h-badge.ok{color:var(--accent);background:var(--accent-soft);}
+.h-badge.part{color:var(--danger);background:var(--danger-soft);}
+.h-badge.zero{color:var(--text-muted);background:var(--bg-elevated-2);}
+.h-detail td{background:var(--bg-elevated-2);padding:6px 14px 12px;}
+.h-tasks{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:5px;}
+.h-tasks li{display:flex;align-items:center;gap:8px;font-size:12.5px;}
+.h-tasks .mk{width:14px;text-align:center;font-weight:800;flex-shrink:0;}
+.h-tasks .mk.y{color:var(--done);}
+.h-tasks .mk.n{color:var(--danger);}
+.h-tasks li.y .lbl{text-decoration:line-through;color:var(--text-muted);}
+.h-tasks li.n .lbl{color:var(--text-primary);}
+.htable-empty{color:var(--text-muted);font-size:13px;padding:18px 0;text-align:center;}
+
+/* ---- saved plans (qutilar) — folder cards ---- */
+.plan-card{background:var(--bg-elevated-2);border:1px solid var(--border);border-radius:var(--radius-sm);overflow:hidden;transition:border-color .2s,box-shadow .2s,transform .15s;}
+.plan-card:hover{border-color:color-mix(in srgb,var(--accent) 45%,var(--border));}
+.plan-card.open{border-color:var(--accent);box-shadow:0 14px 34px -20px rgba(0,0,0,.6);}
+.plan-head{display:flex;align-items:center;gap:12px;padding:13px 14px;cursor:pointer;}
+.plan-folder{font-size:20px;flex-shrink:0;filter:saturate(1.1);}
+.plan-main{flex:1;min-width:0;}
+.plan-name{font-size:14.5px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.plan-sub{font-size:11.5px;color:var(--text-muted);margin-top:3px;display:flex;gap:7px;align-items:center;flex-wrap:wrap;}
+.plan-dots{display:inline-flex;gap:3px;}
+.plan-quick{display:flex;align-items:center;gap:5px;flex-shrink:0;}
+.plan-chev{color:var(--text-muted);transition:transform .25s,color .2s;margin-left:2px;font-size:13px;}
+.plan-card.open .plan-chev{transform:rotate(90deg);color:var(--accent);}
+.plan-body{padding:0 14px 14px;border-top:1px solid var(--border);animation:fade .25s ease;}
+.plan-body input,.plan-body select{font-family:var(--font-body);background:var(--bg);border:1px solid var(--border);border-radius:9px;color:var(--text-primary);padding:9px 10px;font-size:13.5px;}
+.plan-body input:focus,.plan-body select:focus{outline:none;border-color:var(--accent);}
+.plan-body .pe-name{width:100%;margin:13px 0 11px;font-weight:700;}
+.pe-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px;}
+.pe-task{display:flex;align-items:center;gap:9px;background:var(--bg);border:1px solid var(--border);border-radius:9px;padding:8px 11px;}
+.pe-task[draggable="true"]{cursor:grab;}
+.pe-task.dragging{opacity:.45;border-style:dashed;border-color:var(--accent);}
+.pe-task .grip{font-size:13px;}
+.pt-time{font-family:var(--font-display);color:var(--accent);font-size:12px;width:44px;text-align:center;flex-shrink:0;}
+.pt-time.none{opacity:.4;}
+.pt-label{flex:1;font-size:13.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.pt-dur{color:var(--text-muted);font-family:var(--font-display);font-size:11px;}
+.dropzone{margin-top:10px;border:1.6px dashed var(--border);border-radius:12px;padding:18px;text-align:center;color:var(--text-muted);font-size:12.5px;transition:.18s;}
+.dropzone.over{border-color:var(--accent);background:var(--accent-soft);color:var(--accent);transform:scale(1.01);}
+.palette{margin-top:13px;}
+.pal-title{font-size:10.5px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;font-family:var(--font-display);margin-bottom:8px;}
+.pal-row{display:flex;flex-wrap:wrap;gap:7px;}
+.pal-task{display:inline-flex;align-items:center;gap:6px;background:var(--bg);border:1px solid var(--border);border-radius:999px;padding:6px 12px;font-size:12.5px;cursor:grab;user-select:none;transition:.15s;}
+.pal-task:hover{border-color:var(--accent);color:var(--accent);}
+.pal-task:active{cursor:grabbing;}
+.pal-task.dragging{opacity:.4;}
+.pe-add{display:flex;gap:7px;flex-wrap:wrap;align-items:center;margin-top:13px;}
+.pe-add .pa-label{flex:1;min-width:140px;}
+.pe-add .pa-time{width:106px;font-family:var(--font-display);}
+.pe-add .pa-dur{width:70px;font-family:var(--font-display);}
+.pe-add .pa-cat{min-width:120px;}
+.h-detail-actions{display:flex;gap:8px;margin-top:11px;flex-wrap:wrap;}
+
+/* ===== EXAMS ===== */
+.exam-dash{position:relative;overflow:hidden;background:
+  radial-gradient(120% 120% at 0% 0%,color-mix(in srgb,var(--accent) 22%,transparent),transparent 55%),
+  radial-gradient(120% 120% at 100% 100%,color-mix(in srgb,var(--done) 18%,transparent),transparent 55%),
+  var(--bg-elevated);}
+.dash-greet{font-size:20px;font-weight:800;letter-spacing:-.01em;}
+.dash-sub{font-size:13.5px;color:var(--text-secondary);margin-top:4px;}
+.dash-row{display:flex;gap:20px;align-items:center;flex-wrap:wrap;margin-top:18px;}
+.dash-nearest{flex:1;min-width:220px;}
+.dash-near-lbl{font-family:var(--font-display);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted);}
+.dash-near-name{font-size:18px;font-weight:800;margin-top:3px;display:flex;align-items:center;gap:8px;}
+.dash-near-days{font-family:var(--font-display);font-size:13px;color:var(--accent);margin-top:3px;font-weight:700;}
+.dash-prog{height:9px;border-radius:99px;background:var(--bg-elevated-2);overflow:hidden;margin-top:11px;}
+.dash-prog i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,var(--accent),var(--done));transition:width .6s;}
+.dash-motiv{margin-top:16px;font-size:13px;font-style:italic;color:var(--text-secondary);border-left:3px solid var(--accent);padding:3px 0 3px 12px;}
+.dash-ring{flex-shrink:0;}
+
+.exam-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(108px,1fr));gap:10px;margin-bottom:16px;}
+.exam-stat{background:var(--bg-elevated);border:1px solid var(--border);border-radius:13px;padding:13px 14px;backdrop-filter:blur(6px);}
+.exam-stat .v{font-family:var(--font-display);font-weight:700;font-size:21px;line-height:1.05;}
+.exam-stat .v.small{font-size:14px;}
+.exam-stat .k{font-size:10.5px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.04em;margin-top:5px;}
+
+.exam-controls{display:flex;gap:9px;margin-bottom:14px;flex-wrap:wrap;}
+.exam-search{flex:1;min-width:150px;font-family:var(--font-body);background:var(--bg-elevated-2);border:1px solid var(--border);border-radius:10px;color:var(--text-primary);padding:10px 13px;font-size:14px;}
+.exam-search:focus{outline:none;border-color:var(--accent);}
+.exam-sel{font-family:var(--font-body);background:var(--bg-elevated-2);border:1px solid var(--border);border-radius:10px;color:var(--text-primary);padding:10px 12px;font-size:13.5px;}
+.exam-sel:focus{outline:none;border-color:var(--accent);}
+
+.exam-form{display:flex;flex-direction:column;gap:10px;background:var(--bg-elevated-2);border:1px solid var(--accent);border-radius:var(--radius-sm);padding:15px;margin-bottom:14px;animation:fade .25s ease;}
+.exam-form input,.exam-form select{font-family:var(--font-body);background:var(--bg);border:1px solid var(--border);border-radius:9px;color:var(--text-primary);padding:10px 11px;font-size:13.5px;}
+.exam-form input:focus,.exam-form select:focus{outline:none;border-color:var(--accent);}
+.exam-form .ef-row{display:flex;gap:9px;flex-wrap:wrap;}
+.exam-form .ef-name{flex:1;min-width:160px;}
+.exam-form .ef-date{font-family:var(--font-display);}
+.exam-form .ef-actions{display:flex;gap:8px;}
+
+.exam-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:11px;}
+.exam-card{display:flex;align-items:center;gap:15px;background:linear-gradient(135deg,color-mix(in srgb,var(--ecolor) 12%,var(--bg-elevated-2)),var(--bg-elevated-2));border:1px solid var(--border);border-left:3px solid var(--ecolor);border-radius:var(--radius-sm);padding:14px 16px;transition:transform .15s,box-shadow .2s,border-color .2s;}
+.exam-card[draggable="true"]{cursor:grab;}
+.exam-card:hover{transform:translateY(-2px);box-shadow:0 14px 30px -20px color-mix(in srgb,var(--ecolor) 80%,black);}
+.exam-card.dragging{opacity:.45;border-style:dashed;}
+.exam-card.completed{opacity:.62;}
+.exam-card.nearest{box-shadow:0 0 0 1px var(--ecolor),0 12px 30px -22px var(--ecolor);}
+.exam-ring{position:relative;width:74px;height:74px;flex-shrink:0;}
+.exam-ring svg{transform:rotate(-90deg);}
+.exam-ring .er-bg{stroke:var(--bg-elevated-2);}
+.exam-ring .er-fg{stroke:var(--ecolor);stroke-linecap:round;transition:stroke-dashoffset .9s;}
+.exam-ring .er-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+.exam-ring .er-num{font-family:var(--font-display);font-weight:700;font-size:20px;line-height:1;}
+.exam-ring .er-unit{font-size:8.5px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;margin-top:1px;}
+.exam-info{flex:1;min-width:0;}
+.exam-top{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.exam-icon{font-size:17px;}
+.exam-name{font-size:15.5px;font-weight:800;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.exam-badge{font-size:10px;font-weight:700;padding:2px 9px;border-radius:99px;background:color-mix(in srgb,var(--ecolor) 20%,transparent);color:var(--ecolor);white-space:nowrap;}
+.exam-date{font-size:12px;color:var(--text-muted);margin-top:4px;font-family:var(--font-display);}
+.exam-cd{display:flex;gap:9px;margin-top:8px;}
+.cd-box{text-align:center;min-width:38px;}
+.cd-box .n{font-family:var(--font-display);font-weight:700;font-size:18px;line-height:1;font-variant-numeric:tabular-nums;}
+.cd-box .u{font-size:9px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.04em;}
+.exam-done-tag{font-family:var(--font-display);font-weight:700;font-size:14px;color:var(--done);margin-top:8px;display:flex;align-items:center;gap:6px;}
+.exam-actions{display:flex;flex-direction:column;gap:5px;flex-shrink:0;}
+
+.exam-cal{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;}
+.ec-dow{text-align:center;font-family:var(--font-display);font-size:10px;color:var(--text-muted);padding-bottom:4px;text-transform:uppercase;}
+.ec-day{aspect-ratio:1;border-radius:9px;background:var(--bg-elevated-2);border:1px solid var(--border);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-family:var(--font-display);font-size:12px;position:relative;min-height:38px;}
+.ec-day.blank{background:transparent;border:none;}
+.ec-day.today{border-color:var(--accent);color:var(--accent);font-weight:700;}
+.ec-day.has{cursor:default;}
+.ec-dots{display:flex;gap:2px;flex-wrap:wrap;justify-content:center;max-width:90%;}
+.ec-dot{width:5px;height:5px;border-radius:50%;}
+.exam-legend{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px;}
+.exam-legend .lg{display:flex;align-items:center;gap:6px;font-size:11.5px;color:var(--text-secondary);}
+.exam-legend .lg .d{width:9px;height:9px;border-radius:50%;}
+
+#confettiCanvas{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:9999;}
+
+button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;}}
+@media (max-width:480px){
+  .brand h1{font-size:25px;}
+  .nav button{min-width:auto;padding:10px 6px;font-size:0;}
+  .nav button .ic{font-size:18px;}
+  .nav button.active{font-size:0;}
+}
+@media (max-height:430px){
+  body{padding:14px;}
+  .topbar,.nav{display:none;}
+}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- ===== HEADER ===== -->
+  <header class="topbar">
+    <div class="brand">
+      <div class="eyebrow">Kunlik rivojlanish tizimi</div>
+      <h1><span class="pulse"></span>FOKUS</h1>
+    </div>
+    <div class="bar-right">
+      <div class="datebox">
+        <div class="d-day" id="dDay">29 iyun</div>
+        <div class="d-wk" id="dWk">dushanba</div>
+      </div>
+      <button class="theme-btn" id="themeBtn" aria-label="Rejimni almashtirish">☀️</button>
+    </div>
+  </header>
+
+  <!-- ===== NAV ===== -->
+  <nav class="nav">
+    <button class="" data-tab="today"><span class="ic">◎</span>Bugun</button>
+    <button data-tab="plans"><span class="ic">≡</span>Rejalar</button>
+    <button data-tab="timer"><span class="ic">⏱</span>Taymer</button>
+    <button data-tab="stats"><span class="ic">▦</span>Tahlil</button>
+    <button data-tab="exams" class="active"><span class="ic">⏳</span>Imtihon</button>
+  </nav>
+
+  <!-- ===== TODAY ===== -->
+  <section class="view" id="view-today">
+    <div id="carryAlert"></div>
+    <div class="card">
+      <div class="hero">
+        <div class="ring-wrap">
+          <svg width="128" height="128" viewBox="0 0 128 128">
+            <circle class="ring-bg" cx="64" cy="64" r="56" fill="none" stroke-width="11"></circle>
+            <circle class="ring-fg" id="ring" cx="64" cy="64" r="56" fill="none" stroke-width="11" stroke-dasharray="351.9" stroke-dashoffset="351.9" style="stroke-dasharray: 351.9; stroke-dashoffset: 351.9;"></circle>
+          </svg>
+          <div class="ring-center">
+            <div class="pct" id="ringPct">0%</div>
+            <div class="lbl">bajarildi</div>
+          </div>
+        </div>
+        <div class="hero-info">
+          <div class="hero-status" id="heroStatus">0/7 bajarildi</div>
+          <div class="hero-sub" id="heroSub">Kun «bajarildi» bo'lishi uchun kamida 80% kerak. Davom et!</div>
+          <div class="mini-stats">
+            <div class="mstat"><div class="v" id="msStreak">0</div><div class="k">Streak (kun)</div></div>
+            <div class="mstat"><div class="v" id="msTasks">0/7</div><div class="k">Ishlar</div></div>
+            <div class="mstat"><div class="v" id="msTime">8s 33d</div><div class="k">Reja vaqti</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Bugungi ro'yxat
+        <span class="title-tools">
+          <span id="todayDone" style="color:var(--done)">0/7</span>
+          <button class="btn btn-secondary" id="sortTimeBtn" style="padding:6px 11px;font-size:11px">↕ Vaqt bo'yicha</button>
+        </span>
+      </div>
+      <div id="todaySchedule" class="sched-banner" style="display: flex;"><span>🕘 Boshlanish <b>05:00</b></span>
+      <span>🏁 Tugash <b>16:30</b></span>
+      <span>Σ Jami reja <b>8s 33d</b></span>
+      </div>
+      <ul class="task-list" id="todayList"><li class="task" data-id="xmqy74tvg" draggable="true">
+        <span class="grip" title="Ushlab torting">⠿</span>
+        <button class="checkbox" data-act="toggle" data-id="xmqy74tvg" aria-label="Belgilash">✓</button>
+        <div class="t-time2"><span class="ts">05:00</span><span class="te">→ 06:00</span></div>
+        <div class="t-main">
+          <div class="t-label">Namoz</div>
+          <div class="t-meta">
+            <span class="cat-dot" style="background:#5fae8c"></span>
+            <span class="t-cat">Ibodat</span>
+            <span class="t-dur">· 1s</span>
+
+
+          </div>
+        </div>
+        <div class="t-actions">
+          <button class="icon-btn" data-act="edit" data-id="xmqy74tvg" aria-label="Tahrirlash">✎</button>
+          <button class="icon-btn danger" data-act="del" data-id="xmqy74tvg" aria-label="O&#39;chirish">×</button>
+        </div></li><li class="task" data-id="xmqy74tvh" draggable="true">
+        <span class="grip" title="Ushlab torting">⠿</span>
+        <button class="checkbox" data-act="toggle" data-id="xmqy74tvh" aria-label="Belgilash">✓</button>
+        <div class="t-time2"><span class="ts">06:00</span><span class="te">→ 07:00</span></div>
+        <div class="t-main">
+          <div class="t-label">Ovqat + tayyorlanish</div>
+          <div class="t-meta">
+            <span class="cat-dot" style="background:#cf7f9e"></span>
+            <span class="t-cat">Self improvement</span>
+            <span class="t-dur">· 1s</span>
+
+
+          </div>
+        </div>
+        <div class="t-actions">
+          <button class="icon-btn" data-act="edit" data-id="xmqy74tvh" aria-label="Tahrirlash">✎</button>
+          <button class="icon-btn danger" data-act="del" data-id="xmqy74tvh" aria-label="O&#39;chirish">×</button>
+        </div></li><li class="task" data-id="xmqy74tvi" draggable="true">
+        <span class="grip" title="Ushlab torting">⠿</span>
+        <button class="checkbox" data-act="toggle" data-id="xmqy74tvi" aria-label="Belgilash">✓</button>
+        <div class="t-time2"><span class="ts">07:00</span><span class="te">→ 07:03</span></div>
+        <div class="t-main">
+          <div class="t-label">SAT English</div>
+          <div class="t-meta">
+            <span class="cat-dot" style="background:#cf7f9e"></span>
+            <span class="t-cat">Self improvement</span>
+            <span class="t-dur">· 3d</span>
+
+
+          </div>
+        </div>
+        <div class="t-actions">
+          <button class="icon-btn" data-act="edit" data-id="xmqy74tvi" aria-label="Tahrirlash">✎</button>
+          <button class="icon-btn danger" data-act="del" data-id="xmqy74tvi" aria-label="O&#39;chirish">×</button>
+        </div></li><li class="task" data-id="xmqy74tvj" draggable="true">
+        <span class="grip" title="Ushlab torting">⠿</span>
+        <button class="checkbox" data-act="toggle" data-id="xmqy74tvj" aria-label="Belgilash">✓</button>
+        <div class="t-time2"><span class="ts">10:00</span><span class="te">→ 11:00</span></div>
+        <div class="t-main">
+          <div class="t-label">SAT Math</div>
+          <div class="t-meta">
+            <span class="cat-dot" style="background:#cf7f9e"></span>
+            <span class="t-cat">Self improvement</span>
+            <span class="t-dur">· 1s</span>
+
+
+          </div>
+        </div>
+        <div class="t-actions">
+          <button class="icon-btn" data-act="edit" data-id="xmqy74tvj" aria-label="Tahrirlash">✎</button>
+          <button class="icon-btn danger" data-act="del" data-id="xmqy74tvj" aria-label="O&#39;chirish">×</button>
+        </div></li><li class="task" data-id="xmqy74tvk" draggable="true">
+        <span class="grip" title="Ushlab torting">⠿</span>
+        <button class="checkbox" data-act="toggle" data-id="xmqy74tvk" aria-label="Belgilash">✓</button>
+        <div class="t-time2"><span class="ts">11:00</span><span class="te">→ 13:00</span></div>
+        <div class="t-main">
+          <div class="t-label">English Gramma</div>
+          <div class="t-meta">
+            <span class="cat-dot" style="background:#cf7f9e"></span>
+            <span class="t-cat">Self improvement</span>
+            <span class="t-dur">· 2s</span>
+
+
+          </div>
+        </div>
+        <div class="t-actions">
+          <button class="icon-btn" data-act="edit" data-id="xmqy74tvk" aria-label="Tahrirlash">✎</button>
+          <button class="icon-btn danger" data-act="del" data-id="xmqy74tvk" aria-label="O&#39;chirish">×</button>
+        </div></li><li class="task" data-id="xmqy74tvl" draggable="true">
+        <span class="grip" title="Ushlab torting">⠿</span>
+        <button class="checkbox" data-act="toggle" data-id="xmqy74tvl" aria-label="Belgilash">✓</button>
+        <div class="t-time2"><span class="ts">13:00</span><span class="te">→ 14:00</span></div>
+        <div class="t-main">
+          <div class="t-label">Rest</div>
+          <div class="t-meta">
+            <span class="cat-dot" style="background:#8a93a6"></span>
+            <span class="t-cat">Rest</span>
+            <span class="t-dur">· 1s</span>
+
+
+          </div>
+        </div>
+        <div class="t-actions">
+          <button class="icon-btn" data-act="edit" data-id="xmqy74tvl" aria-label="Tahrirlash">✎</button>
+          <button class="icon-btn danger" data-act="del" data-id="xmqy74tvl" aria-label="O&#39;chirish">×</button>
+        </div></li><li class="task" data-id="xmqy74tvm" draggable="true">
+        <span class="grip" title="Ushlab torting">⠿</span>
+        <button class="checkbox" data-act="toggle" data-id="xmqy74tvm" aria-label="Belgilash">✓</button>
+        <div class="t-time2"><span class="ts">14:00</span><span class="te">→ 16:30</span></div>
+        <div class="t-main">
+          <div class="t-label">Olympiads</div>
+          <div class="t-meta">
+            <span class="cat-dot" style="background:#cf7f9e"></span>
+            <span class="t-cat">Self improvement</span>
+            <span class="t-dur">· 2s 30d</span>
+
+
+          </div>
+        </div>
+        <div class="t-actions">
+          <button class="icon-btn" data-act="edit" data-id="xmqy74tvm" aria-label="Tahrirlash">✎</button>
+          <button class="icon-btn danger" data-act="del" data-id="xmqy74tvm" aria-label="O&#39;chirish">×</button>
+        </div></li></ul>
+      <div class="empty" id="todayEmpty" style="display:none">
+        <div class="e-ic">◎</div>
+        <div>Bugun hali ish qo'shilmagan.<br>Pastdagi shakl orqali bugungi rejani yoz.</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Tezkor qo'shish</div>
+      <div class="form-grid">
+        <div class="field f-label grow">
+          <label>Ish nomi</label>
+          <input id="qLabel" type="text" placeholder="masalan: Yugurish 5 km">
+        </div>
+        <div class="field f-time">
+          <label>Vaqti</label>
+          <input id="qTime" type="time">
+        </div>
+        <div class="field f-num">
+          <label>Davomiyligi (daq)</label>
+          <input id="qDur" type="number" min="0" max="999" placeholder="0">
+        </div>
+        <div class="field">
+          <label>Toifa</label>
+          <select id="qCat"><option value="satmath">SAT Math</option><option value="saten">SAT English</option><option value="ibodat">Ibodat</option><option value="grammar">English Grammar</option><option value="sport">Sport</option><option value="startup">Startup</option><option value="olympiad">Olympiads</option><option value="rest">Rest</option><option value="self">Self improvement</option><option value="meals">Meals</option></select>
+        </div>
+        <button class="btn btn-primary" id="qAdd">+ Qo'shish</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PLANS / TEMPLATES ===== -->
+  <section class="view" id="view-plans">
+    <div class="card">
+      <div class="card-title">Yangi takroriy odat</div>
+      <p style="font-size:13px;color:var(--text-secondary);margin:-6px 0 16px;line-height:1.5">
+        Bu yerga yozilgan ishlar belgilangan kunlarda <b>har kuni avtomatik</b> bugungi ro'yxatga tushadi.
+        Misol: «Yugurish — 06:30 — har kuni».
+      </p>
+      <div class="form-grid">
+        <div class="field f-label grow">
+          <label>Odat nomi</label>
+          <input id="tLabel" type="text" placeholder="masalan: Olimpiada masalalari">
+        </div>
+        <div class="field f-time">
+          <label>Vaqti</label>
+          <input id="tTime" type="time">
+        </div>
+        <div class="field f-num">
+          <label>Davomiyligi (daq)</label>
+          <input id="tDur" type="number" min="0" max="999" placeholder="0">
+        </div>
+        <div class="field">
+          <label>Toifa</label>
+          <select id="tCat"><option value="satmath">SAT Math</option><option value="saten">SAT English</option><option value="ibodat">Ibodat</option><option value="grammar">English Grammar</option><option value="sport">Sport</option><option value="startup">Startup</option><option value="olympiad">Olympiads</option><option value="rest">Rest</option><option value="self">Self improvement</option><option value="meals">Meals</option></select>
+        </div>
+      </div>
+      <div class="form-grid" style="margin-top:14px">
+        <div class="field">
+          <label>Takrorlash</label>
+          <select id="tRepeat">
+            <option value="daily">Har kuni</option>
+            <option value="weekdays">Ish kunlari (Du–Ju)</option>
+            <option value="custom">Tanlangan kunlar</option>
+          </select>
+        </div>
+        <div class="field grow">
+          <label>Kunlar</label>
+          <div class="daypick" id="tDays" style="opacity: 0.4; pointer-events: none;"><button type="button" class="on">Du</button><button type="button" class="on">Se</button><button type="button" class="on">Ch</button><button type="button" class="on">Pa</button><button type="button" class="on">Ju</button><button type="button" class="">Sh</button><button type="button" class="">Ya</button></div>
+        </div>
+        <button class="btn btn-primary" id="tAdd">+ Odat qo'shish</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Mening odatlarim</div>
+      <ul class="task-list" id="tplList"><li class="tpl" data-id="xmqo4kf2k" draggable="true">
+      <span class="grip" title="Ushlab torting">⠿</span>
+      <div class="toggle on" data-act="toggle" data-id="xmqo4kf2k" role="button" aria-label="Yoqish"></div>
+      <div class="tpl-main">
+        <div class="tpl-label">Namoz</div>
+        <div class="tpl-sub">
+          <span class="cat-dot" style="background:#5fae8c"></span>Ibodat · 05:00 · 1s · Ya, Du, Se, Ch, Pa, Ju, Sh
+        </div>
+      </div>
+      <div class="t-actions">
+        <button class="icon-btn" data-act="edit" data-id="xmqo4kf2k" aria-label="Tahrirlash">✎</button>
+        <button class="icon-btn danger" data-act="del" data-id="xmqo4kf2k" aria-label="O&#39;chirish">×</button>
+      </div></li><li class="tpl" data-id="xmqo4kf2m" draggable="true">
+      <span class="grip" title="Ushlab torting">⠿</span>
+      <div class="toggle on" data-act="toggle" data-id="xmqo4kf2m" role="button" aria-label="Yoqish"></div>
+      <div class="tpl-main">
+        <div class="tpl-label">Ovqat + tayyorlanish</div>
+        <div class="tpl-sub">
+          <span class="cat-dot" style="background:#cf7f9e"></span>Self improvement · 06:00 · 1s · Ya, Du, Se, Ch, Pa, Ju, Sh
+        </div>
+      </div>
+      <div class="t-actions">
+        <button class="icon-btn" data-act="edit" data-id="xmqo4kf2m" aria-label="Tahrirlash">✎</button>
+        <button class="icon-btn danger" data-act="del" data-id="xmqo4kf2m" aria-label="O&#39;chirish">×</button>
+      </div></li><li class="tpl" data-id="xmqo4kf2o" draggable="true">
+      <span class="grip" title="Ushlab torting">⠿</span>
+      <div class="toggle on" data-act="toggle" data-id="xmqo4kf2o" role="button" aria-label="Yoqish"></div>
+      <div class="tpl-main">
+        <div class="tpl-label">SAT English</div>
+        <div class="tpl-sub">
+          <span class="cat-dot" style="background:#cf7f9e"></span>Self improvement · 07:00 · 3d · Ya, Du, Se, Ch, Pa, Ju, Sh
+        </div>
+      </div>
+      <div class="t-actions">
+        <button class="icon-btn" data-act="edit" data-id="xmqo4kf2o" aria-label="Tahrirlash">✎</button>
+        <button class="icon-btn danger" data-act="del" data-id="xmqo4kf2o" aria-label="O&#39;chirish">×</button>
+      </div></li><li class="tpl" data-id="xmqo4kf2q" draggable="true">
+      <span class="grip" title="Ushlab torting">⠿</span>
+      <div class="toggle on" data-act="toggle" data-id="xmqo4kf2q" role="button" aria-label="Yoqish"></div>
+      <div class="tpl-main">
+        <div class="tpl-label">SAT Math</div>
+        <div class="tpl-sub">
+          <span class="cat-dot" style="background:#cf7f9e"></span>Self improvement · 10:00 · 1s · Ya, Du, Se, Ch, Pa, Ju, Sh
+        </div>
+      </div>
+      <div class="t-actions">
+        <button class="icon-btn" data-act="edit" data-id="xmqo4kf2q" aria-label="Tahrirlash">✎</button>
+        <button class="icon-btn danger" data-act="del" data-id="xmqo4kf2q" aria-label="O&#39;chirish">×</button>
+      </div></li><li class="tpl" data-id="xmqo4kf2s" draggable="true">
+      <span class="grip" title="Ushlab torting">⠿</span>
+      <div class="toggle on" data-act="toggle" data-id="xmqo4kf2s" role="button" aria-label="Yoqish"></div>
+      <div class="tpl-main">
+        <div class="tpl-label">English Gramma</div>
+        <div class="tpl-sub">
+          <span class="cat-dot" style="background:#cf7f9e"></span>Self improvement · 11:00 · 2s · Ya, Du, Se, Ch, Pa, Ju, Sh
+        </div>
+      </div>
+      <div class="t-actions">
+        <button class="icon-btn" data-act="edit" data-id="xmqo4kf2s" aria-label="Tahrirlash">✎</button>
+        <button class="icon-btn danger" data-act="del" data-id="xmqo4kf2s" aria-label="O&#39;chirish">×</button>
+      </div></li><li class="tpl" data-id="xmqo4kf2u" draggable="true">
+      <span class="grip" title="Ushlab torting">⠿</span>
+      <div class="toggle on" data-act="toggle" data-id="xmqo4kf2u" role="button" aria-label="Yoqish"></div>
+      <div class="tpl-main">
+        <div class="tpl-label">Rest</div>
+        <div class="tpl-sub">
+          <span class="cat-dot" style="background:#8a93a6"></span>Rest · 13:00 · 1s · Ya, Du, Se, Ch, Pa, Ju, Sh
+        </div>
+      </div>
+      <div class="t-actions">
+        <button class="icon-btn" data-act="edit" data-id="xmqo4kf2u" aria-label="Tahrirlash">✎</button>
+        <button class="icon-btn danger" data-act="del" data-id="xmqo4kf2u" aria-label="O&#39;chirish">×</button>
+      </div></li><li class="tpl" data-id="xmqo4kf2w" draggable="true">
+      <span class="grip" title="Ushlab torting">⠿</span>
+      <div class="toggle on" data-act="toggle" data-id="xmqo4kf2w" role="button" aria-label="Yoqish"></div>
+      <div class="tpl-main">
+        <div class="tpl-label">Olympiads</div>
+        <div class="tpl-sub">
+          <span class="cat-dot" style="background:#cf7f9e"></span>Self improvement · 14:00 · 2s 30d · Ya, Du, Se, Ch, Pa, Ju, Sh
+        </div>
+      </div>
+      <div class="t-actions">
+        <button class="icon-btn" data-act="edit" data-id="xmqo4kf2w" aria-label="Tahrirlash">✎</button>
+        <button class="icon-btn danger" data-act="del" data-id="xmqo4kf2w" aria-label="O&#39;chirish">×</button>
+      </div></li></ul>
+      <div class="empty" id="tplEmpty" style="display:none">
+        <div class="e-ic">≡</div>
+        <div>Hali takroriy odat yo'q.<br>Yuqorida birinchisini yarat — u har kuni o'zi paydo bo'ladi.</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span>Saqlangan rejalar (qutilar)</span>
+        <button class="btn btn-secondary" id="savePlanBtn" style="padding:7px 12px;font-size:12px">💾 Bugungi rejani saqlash</button>
+      </div>
+      <p style="font-size:13px;color:var(--text-secondary);margin:-6px 0 14px;line-height:1.5">
+        Bir kunlik rejani qutiga saqlab qo'y — keyin xohlagan kuning bir tugma bilan yuklaysan. Har qutini tahrirlash, ortiqcha ishlarni olib tashlash mumkin.
+      </p>
+      <ul class="task-list" id="planList"><li class="plan-card">
+      <div class="plan-head" data-act="toggle" data-id="xmqtu961o">
+        <span class="plan-folder">🗂</span>
+        <div class="plan-main">
+          <div class="plan-name">Payshanba 25</div>
+          <div class="plan-sub"><span class="plan-dots"><span class="cat-dot" style="background:#5fae8c"></span><span class="cat-dot" style="background:#cf7f9e"></span><span class="cat-dot" style="background:#8a93a6"></span></span> 7 ish · 8s 33d</div>
+        </div>
+        <div class="plan-quick">
+          <button class="icon-btn" data-act="load" data-id="xmqtu961o" title="Bugunga qo&#39;shish">↧</button>
+          <button class="icon-btn" data-act="replace" data-id="xmqtu961o" title="Bugunni almashtirish">⇄</button>
+          <span class="plan-chev">▸</span>
+        </div>
+      </div>
+      </li></ul>
+      <div class="empty" id="planEmpty" style="display:none">
+        <div class="e-ic">🗂</div>
+        <div>Hali saqlangan reja yo'q.<br>«Bugungi rejani saqlash» yoki Tahlil → Kunlik yilnomadan saqla.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== TIMER ===== -->
+  <section class="view" id="view-timer">
+    <!-- RUN -->
+    <div id="runView" hidden="">
+      <div class="stage-card">
+        <div id="stageProgressLabel">1/1 bosqich</div>
+        <div id="bigClock" class="big-clock">00:00</div>
+        <div id="stageLabel" class="stage-label">—</div>
+        <div id="totalRemaining"></div>
+      </div>
+      <div class="track-wrap"><div id="track" class="track"></div></div>
+      <div id="runControls" class="controls">
+        <button id="pauseBtn" class="btn btn-secondary">⏸ Pauza</button>
+        <button id="skipBtn" class="btn btn-secondary">⏭ Keyingisi</button>
+        <button id="stopBtn" class="btn btn-danger">■ To'xtatish</button>
+        <button id="pipBtn" class="btn btn-secondary">📌 Burchakka chiqarish</button>
+      </div>
+      <div id="doneControls" class="controls" hidden="">
+        <button id="restartBtn" class="btn btn-primary">↻ Qaytadan</button>
+        <button id="editBtn" class="btn btn-secondary">✎ Tahrirlash</button>
+      </div>
+      <div id="pipNotice" class="pip-notice" hidden=""></div>
+    </div>
+
+    <!-- BUILD -->
+    <div id="buildView">
+      <div class="card">
+        <div class="card-title">Ketma-ket taymer
+          <button class="btn btn-secondary" id="loadTodayBtn" style="padding:7px 12px;font-size:12px">↧ Bugungi rejadan</button>
+        </div>
+        <div class="form-grid">
+          <div class="field f-num"><label>Daqiqa</label><input id="minInput" type="number" min="0" max="999" placeholder="0"></div>
+          <div class="field f-num"><label>Soniya</label><input id="secInput" type="number" min="0" max="59" placeholder="0"></div>
+          <div class="field f-label grow"><label>Nom (ixtiyoriy)</label><input id="labelInput" type="text" placeholder="masalan: Mashq"></div>
+          <button id="addBtn" class="btn btn-primary">+ Qo'shish</button>
+        </div>
+        <div class="chips">
+          <button class="chip" data-sec="5">5 sek</button>
+          <button class="chip" data-min="5">5 daq</button>
+          <button class="chip" data-min="10">10 daq</button>
+          <button class="chip" data-min="15">15 daq</button>
+          <button class="chip" data-min="25">25 daq</button>
+          <button class="chip" data-min="45">45 daq</button>
+          <button class="chip" data-min="60">60 daq</button>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">Navbat <span style="font-size:11px;color:var(--text-muted);text-transform:none;letter-spacing:0">⠿ ushlab tortib joyini o'zgartiring</span></div>
+        <ul id="queueList" class="queue-list"><li class="queue-item" data-id="xmqy9hbjt" draggable="true"><span class="qi-grip" title="Ushlab torting">⠿</span>
+          <span class="qi-index">1</span>
+          <span class="qi-time">02:00</span>
+          <span class="qi-label"><span style="opacity:.5;font-style:italic">nomsiz</span></span>
+          <span class="t-actions">
+            <button class="icon-btn" data-act="qedit" data-id="xmqy9hbjt" aria-label="Tahrirlash">✎</button>
+            <button class="icon-btn danger" data-act="remove" data-id="xmqy9hbjt" aria-label="O&#39;chirish">×</button>
+          </span></li><li class="queue-item" data-id="xmqy9hbju" draggable="true"><span class="qi-grip" title="Ushlab torting">⠿</span>
+          <span class="qi-index">2</span>
+          <span class="qi-time">02:00</span>
+          <span class="qi-label"><span style="opacity:.5;font-style:italic">nomsiz</span></span>
+          <span class="t-actions">
+            <button class="icon-btn" data-act="qedit" data-id="xmqy9hbju" aria-label="Tahrirlash">✎</button>
+            <button class="icon-btn danger" data-act="remove" data-id="xmqy9hbju" aria-label="O&#39;chirish">×</button>
+          </span></li><li class="queue-item" data-id="xmqy9hbjv" draggable="true"><span class="qi-grip" title="Ushlab torting">⠿</span>
+          <span class="qi-index">3</span>
+          <span class="qi-time">02:00</span>
+          <span class="qi-label"><span style="opacity:.5;font-style:italic">nomsiz</span></span>
+          <span class="t-actions">
+            <button class="icon-btn" data-act="qedit" data-id="xmqy9hbjv" aria-label="Tahrirlash">✎</button>
+            <button class="icon-btn danger" data-act="remove" data-id="xmqy9hbjv" aria-label="O&#39;chirish">×</button>
+          </span></li><li class="queue-item" data-id="xmqy9hbjw" draggable="true"><span class="qi-grip" title="Ushlab torting">⠿</span>
+          <span class="qi-index">4</span>
+          <span class="qi-time">02:00</span>
+          <span class="qi-label"><span style="opacity:.5;font-style:italic">nomsiz</span></span>
+          <span class="t-actions">
+            <button class="icon-btn" data-act="qedit" data-id="xmqy9hbjw" aria-label="Tahrirlash">✎</button>
+            <button class="icon-btn danger" data-act="remove" data-id="xmqy9hbjw" aria-label="O&#39;chirish">×</button>
+          </span></li><li class="queue-item" data-id="xmqy9hbjx" draggable="true"><span class="qi-grip" title="Ushlab torting">⠿</span>
+          <span class="qi-index">5</span>
+          <span class="qi-time">02:00</span>
+          <span class="qi-label"><span style="opacity:.5;font-style:italic">nomsiz</span></span>
+          <span class="t-actions">
+            <button class="icon-btn" data-act="qedit" data-id="xmqy9hbjx" aria-label="Tahrirlash">✎</button>
+            <button class="icon-btn danger" data-act="remove" data-id="xmqy9hbjx" aria-label="O&#39;chirish">×</button>
+          </span></li><li class="queue-item" data-id="xmqy9hbjy" draggable="true"><span class="qi-grip" title="Ushlab torting">⠿</span>
+          <span class="qi-index">6</span>
+          <span class="qi-time">02:00</span>
+          <span class="qi-label"><span style="opacity:.5;font-style:italic">nomsiz</span></span>
+          <span class="t-actions">
+            <button class="icon-btn" data-act="qedit" data-id="xmqy9hbjy" aria-label="Tahrirlash">✎</button>
+            <button class="icon-btn danger" data-act="remove" data-id="xmqy9hbjy" aria-label="O&#39;chirish">×</button>
+          </span></li><li class="queue-item" data-id="xmqy9hbjz" draggable="true"><span class="qi-grip" title="Ushlab torting">⠿</span>
+          <span class="qi-index">7</span>
+          <span class="qi-time">02:00</span>
+          <span class="qi-label"><span style="opacity:.5;font-style:italic">nomsiz</span></span>
+          <span class="t-actions">
+            <button class="icon-btn" data-act="qedit" data-id="xmqy9hbjz" aria-label="Tahrirlash">✎</button>
+            <button class="icon-btn danger" data-act="remove" data-id="xmqy9hbjz" aria-label="O&#39;chirish">×</button>
+          </span></li><li class="queue-item" data-id="xmqy9hbk0" draggable="true"><span class="qi-grip" title="Ushlab torting">⠿</span>
+          <span class="qi-index">8</span>
+          <span class="qi-time">02:00</span>
+          <span class="qi-label"><span style="opacity:.5;font-style:italic">nomsiz</span></span>
+          <span class="t-actions">
+            <button class="icon-btn" data-act="qedit" data-id="xmqy9hbk0" aria-label="Tahrirlash">✎</button>
+            <button class="icon-btn danger" data-act="remove" data-id="xmqy9hbk0" aria-label="O&#39;chirish">×</button>
+          </span></li><li class="queue-item" data-id="xmqy9hbk1" draggable="true"><span class="qi-grip" title="Ushlab torting">⠿</span>
+          <span class="qi-index">9</span>
+          <span class="qi-time">02:00</span>
+          <span class="qi-label"><span style="opacity:.5;font-style:italic">nomsiz</span></span>
+          <span class="t-actions">
+            <button class="icon-btn" data-act="qedit" data-id="xmqy9hbk1" aria-label="Tahrirlash">✎</button>
+            <button class="icon-btn danger" data-act="remove" data-id="xmqy9hbk1" aria-label="O&#39;chirish">×</button>
+          </span></li><li class="queue-item" data-id="xmqy9hbk2" draggable="true"><span class="qi-grip" title="Ushlab torting">⠿</span>
+          <span class="qi-index">10</span>
+          <span class="qi-time">02:00</span>
+          <span class="qi-label"><span style="opacity:.5;font-style:italic">nomsiz</span></span>
+          <span class="t-actions">
+            <button class="icon-btn" data-act="qedit" data-id="xmqy9hbk2" aria-label="Tahrirlash">✎</button>
+            <button class="icon-btn danger" data-act="remove" data-id="xmqy9hbk2" aria-label="O&#39;chirish">×</button>
+          </span></li><li class="queue-item" data-id="xmqy9hbk3" draggable="true"><span class="qi-grip" title="Ushlab torting">⠿</span>
+          <span class="qi-index">11</span>
+          <span class="qi-time">02:00</span>
+          <span class="qi-label"><span style="opacity:.5;font-style:italic">nomsiz</span></span>
+          <span class="t-actions">
+            <button class="icon-btn" data-act="qedit" data-id="xmqy9hbk3" aria-label="Tahrirlash">✎</button>
+            <button class="icon-btn danger" data-act="remove" data-id="xmqy9hbk3" aria-label="O&#39;chirish">×</button>
+          </span></li><li class="queue-item" data-id="xmqy9hbk4" draggable="true"><span class="qi-grip" title="Ushlab torting">⠿</span>
+          <span class="qi-index">12</span>
+          <span class="qi-time">00:05</span>
+          <span class="qi-label"><span style="opacity:.5;font-style:italic">nomsiz</span></span>
+          <span class="t-actions">
+            <button class="icon-btn" data-act="qedit" data-id="xmqy9hbk4" aria-label="Tahrirlash">✎</button>
+            <button class="icon-btn danger" data-act="remove" data-id="xmqy9hbk4" aria-label="O&#39;chirish">×</button>
+          </span></li><li class="queue-item" data-id="xmqy9hbk5" draggable="true"><span class="qi-grip" title="Ushlab torting">⠿</span>
+          <span class="qi-index">13</span>
+          <span class="qi-time">02:00</span>
+          <span class="qi-label"><span style="opacity:.5;font-style:italic">nomsiz</span></span>
+          <span class="t-actions">
+            <button class="icon-btn" data-act="qedit" data-id="xmqy9hbk5" aria-label="Tahrirlash">✎</button>
+            <button class="icon-btn danger" data-act="remove" data-id="xmqy9hbk5" aria-label="O&#39;chirish">×</button>
+          </span></li><li class="queue-item" data-id="xmqy9hbk6" draggable="true"><span class="qi-grip" title="Ushlab torting">⠿</span>
+          <span class="qi-index">14</span>
+          <span class="qi-time">02:00</span>
+          <span class="qi-label"><span style="opacity:.5;font-style:italic">nomsiz</span></span>
+          <span class="t-actions">
+            <button class="icon-btn" data-act="qedit" data-id="xmqy9hbk6" aria-label="Tahrirlash">✎</button>
+            <button class="icon-btn danger" data-act="remove" data-id="xmqy9hbk6" aria-label="O&#39;chirish">×</button>
+          </span></li><li class="queue-item" data-id="xmqy9hbk7" draggable="true"><span class="qi-grip" title="Ushlab torting">⠿</span>
+          <span class="qi-index">15</span>
+          <span class="qi-time">02:00</span>
+          <span class="qi-label"><span style="opacity:.5;font-style:italic">nomsiz</span></span>
+          <span class="t-actions">
+            <button class="icon-btn" data-act="qedit" data-id="xmqy9hbk7" aria-label="Tahrirlash">✎</button>
+            <button class="icon-btn danger" data-act="remove" data-id="xmqy9hbk7" aria-label="O&#39;chirish">×</button>
+          </span></li><li class="queue-item" data-id="xmqy9hbk8" draggable="true"><span class="qi-grip" title="Ushlab torting">⠿</span>
+          <span class="qi-index">16</span>
+          <span class="qi-time">1:00:00</span>
+          <span class="qi-label">SAT Math</span>
+          <span class="t-actions">
+            <button class="icon-btn" data-act="qedit" data-id="xmqy9hbk8" aria-label="Tahrirlash">✎</button>
+            <button class="icon-btn danger" data-act="remove" data-id="xmqy9hbk8" aria-label="O&#39;chirish">×</button>
+          </span></li><li class="queue-item" data-id="xmqy9hbk9" draggable="true"><span class="qi-grip" title="Ushlab torting">⠿</span>
+          <span class="qi-index">17</span>
+          <span class="qi-time">1:00:00</span>
+          <span class="qi-label">Namoz</span>
+          <span class="t-actions">
+            <button class="icon-btn" data-act="qedit" data-id="xmqy9hbk9" aria-label="Tahrirlash">✎</button>
+            <button class="icon-btn danger" data-act="remove" data-id="xmqy9hbk9" aria-label="O&#39;chirish">×</button>
+          </span></li><li class="queue-item" data-id="xmqy9hbka" draggable="true"><span class="qi-grip" title="Ushlab torting">⠿</span>
+          <span class="qi-index">18</span>
+          <span class="qi-time">2:00:00</span>
+          <span class="qi-label">English Gramma</span>
+          <span class="t-actions">
+            <button class="icon-btn" data-act="qedit" data-id="xmqy9hbka" aria-label="Tahrirlash">✎</button>
+            <button class="icon-btn danger" data-act="remove" data-id="xmqy9hbka" aria-label="O&#39;chirish">×</button>
+          </span></li><li class="queue-item" data-id="xmqy9hbkb" draggable="true"><span class="qi-grip" title="Ushlab torting">⠿</span>
+          <span class="qi-index">19</span>
+          <span class="qi-time">1:00:00</span>
+          <span class="qi-label">Ovqat + tayyorlanish</span>
+          <span class="t-actions">
+            <button class="icon-btn" data-act="qedit" data-id="xmqy9hbkb" aria-label="Tahrirlash">✎</button>
+            <button class="icon-btn danger" data-act="remove" data-id="xmqy9hbkb" aria-label="O&#39;chirish">×</button>
+          </span></li><li class="queue-item" data-id="xmqy9hbkc" draggable="true"><span class="qi-grip" title="Ushlab torting">⠿</span>
+          <span class="qi-index">20</span>
+          <span class="qi-time">03:00</span>
+          <span class="qi-label">SAT English</span>
+          <span class="t-actions">
+            <button class="icon-btn" data-act="qedit" data-id="xmqy9hbkc" aria-label="Tahrirlash">✎</button>
+            <button class="icon-btn danger" data-act="remove" data-id="xmqy9hbkc" aria-label="O&#39;chirish">×</button>
+          </span></li><li class="queue-item" data-id="xmqy9hbkd" draggable="true"><span class="qi-grip" title="Ushlab torting">⠿</span>
+          <span class="qi-index">21</span>
+          <span class="qi-time">1:00:00</span>
+          <span class="qi-label">Rest</span>
+          <span class="t-actions">
+            <button class="icon-btn" data-act="qedit" data-id="xmqy9hbkd" aria-label="Tahrirlash">✎</button>
+            <button class="icon-btn danger" data-act="remove" data-id="xmqy9hbkd" aria-label="O&#39;chirish">×</button>
+          </span></li><li class="queue-item" data-id="xmqy9hbke" draggable="true"><span class="qi-grip" title="Ushlab torting">⠿</span>
+          <span class="qi-index">22</span>
+          <span class="qi-time">2:30:00</span>
+          <span class="qi-label">Olympiads</span>
+          <span class="t-actions">
+            <button class="icon-btn" data-act="qedit" data-id="xmqy9hbke" aria-label="Tahrirlash">✎</button>
+            <button class="icon-btn danger" data-act="remove" data-id="xmqy9hbke" aria-label="O&#39;chirish">×</button>
+          </span></li></ul>
+        <div class="empty" id="queueEmpty" style="display: none;">
+          <div class="e-ic">⏱</div>
+          <div>Hali bosqich yo'q. Yuqoridan vaqt qo'sh yoki «Bugungi rejadan» yukla.</div>
+        </div>
+        <div class="list-footer">
+          <span id="totalSummary">Jami: 9:01:05 • 22 bosqich</span>
+          <button id="clearAllBtn" class="text-btn" style="display: inline;">Hammasini tozalash</button>
+        </div>
+      </div>
+      <button id="startBtn" class="btn btn-primary btn-block">▶ Boshlash</button>
+    </div>
+  </section>
+
+  <!-- ===== STATS ===== -->
+  <section class="view" id="view-stats">
+    <div class="card">
+      <div class="card-title">Joriy ko'rsatkichlar</div>
+      <div class="stat-grid">
+        <div class="bigstat accent"><div class="v" id="stStreak">0</div><div class="k">Joriy streak</div></div>
+        <div class="bigstat"><div class="v" id="stBest">0</div><div class="k">Eng uzun streak</div></div>
+        <div class="bigstat done"><div class="v" id="stAvg">0<small>%</small></div><div class="k">Oylik o'rtacha</div></div>
+        <div class="bigstat"><div class="v" id="stTotal">0</div><div class="k">Jami bajarilgan</div></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">So'nggi 12 hafta
+        <span style="font-size:11px;color:var(--text-muted)">intizom xaritasi</span>
+      </div>
+      <div class="heat" id="heatmap"></div>
+      <div class="heat-legend">
+        Kam
+        <span class="hc" style="background:var(--bg-elevated-2)"></span>
+        <span class="hc" style="background:var(--done-soft)"></span>
+        <span class="hc" style="background:color-mix(in srgb,var(--done) 55%,transparent)"></span>
+        <span class="hc" style="background:var(--done)"></span>
+        Ko'p
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">So'nggi 14 kun</div>
+      <div class="bars" id="bars14"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Kunlik yilnoma
+        <span style="font-size:11px;color:var(--text-muted)">har kuni saqlanadi · bosing</span>
+      </div>
+      <div class="htable-wrap"><table class="htable" id="historyTable"></table></div>
+      <div class="htable-empty" id="historyEmpty" style="display:none">Hali yozuv yo'q. Bir necha kun ishlagandan keyin shu yerda to'planadi.</div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">
+        Oylik toifa tahlili
+        <span class="month-nav">
+          <button id="mPrev">‹</button>
+          <span class="m-label" id="mLabel">—</span>
+          <button id="mNext">›</button>
+        </span>
+      </div>
+      <div id="catBreak"></div>
+      <div class="empty" id="catEmpty" style="display:none">
+        <div class="e-ic">▦</div><div>Bu oy uchun ma'lumot yo'q.</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Ma'lumotlar zaxirasi</div>
+      <p style="font-size:13px;color:var(--text-secondary);margin:-6px 0 14px;line-height:1.5">
+        Barcha ma'lumot shu brauzerda saqlanadi. Boshqa qurilmaga ko'chirish yoki zaxiralash uchun fayl sifatida saqlab ol.
+      </p>
+      <div class="controls" style="justify-content:flex-start">
+        <button class="btn btn-secondary" id="exportBtn">↓ Zaxira saqlash</button>
+        <button class="btn btn-secondary" id="importBtn">↑ Zaxiradan yuklash</button>
+        <button class="btn btn-danger" id="resetBtn">Hammasini tozalash</button>
+        <input type="file" id="importFile" accept="application/json" hidden="">
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== EXAMS ===== -->
+  <section class="view active" id="view-exams">
+    <div class="card exam-dash" id="examDash">
+    <div class="dash-greet">Good Morning, Elyor 👋</div>
+    <div class="dash-sub">Sizda 0 ta kelayotgan imtihon bor.</div>
+    <div class="dash-row"><div class="dash-nearest"><div class="dash-near-lbl">Eng yaqin imtihon</div><div class="dash-near-name" style="color:var(--text-muted)">Yo'q</div><div class="dash-near-days">Imtihon qo'shsang shu yerda chiqadi</div></div></div>
+    <div class="dash-motiv">“Har kuni kichik qadam — katta natija.”</div></div>
+    <div class="exam-stats" id="examStats"><div class="exam-stat"><div class="v">0</div><div class="k">Total Exams</div></div><div class="exam-stat"><div class="v small">—</div><div class="k">Nearest</div></div><div class="exam-stat"><div class="v">0 kun</div><div class="k">Avg Days Left</div></div><div class="exam-stat"><div class="v">0</div><div class="k">Completed</div></div><div class="exam-stat"><div class="v">0</div><div class="k">Upcoming</div></div></div>
+
+    <div class="card">
+      <div class="card-title"><span>Imtihonlar</span>
+        <button id="examAddBtn" class="btn btn-primary" style="padding:7px 14px;font-size:12px">+ Imtihon qo'shish</button>
+      </div>
+      <div id="examForm" class="exam-form">
+    <div class="ef-row">
+      <input class="ef-name" type="text" placeholder="Imtihon nomi (masalan: SAT)" value="">
+      <select class="ef-type"><option value="ielts">📗 IELTS</option><option value="sat">📘 SAT</option><option value="toefl">📕 TOEFL</option><option value="deadline">🏛️ University Deadline</option><option value="early">⚡ Early Action</option><option value="other">📌 Boshqa</option></select>
+    </div>
+    <div class="ef-row">
+      <input class="ef-date" type="date" value="">
+      <input class="ef-time" type="time" value="">
+    </div>
+    <div class="ef-actions">
+      <button class="btn btn-primary" id="examSave">+ Qo'shish</button>
+      <button class="btn btn-secondary" id="examCancel">Bekor</button>
+    </div></div>
+      <div class="exam-controls">
+        <input id="examSearch" class="exam-search" type="text" placeholder="🔍 Imtihon qidirish...">
+        <select id="examFilter" class="exam-sel">
+          <option value="all">Barchasi</option>
+          <option value="upcoming">Kelayotgan</option>
+          <option value="completed">Tugagan</option>
+        </select>
+        <select id="examSort" class="exam-sel">
+          <option value="date">Sana bo'yicha</option>
+          <option value="name">Nom bo'yicha</option>
+        </select>
+      </div>
+      <ul class="exam-list" id="examList"></ul>
+      <div class="empty" id="examEmpty" style="display: flex;">
+        <div class="e-ic">⏳</div>
+        <div>Hali imtihon qo'shilmagan.<br>«+ Imtihon qo'shish» orqali birinchisini yarat.</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span>Kalendar</span>
+        <span class="month-nav">
+          <button id="ecPrev">‹</button>
+          <span class="m-label" id="ecLabel">iyun 2026</span>
+          <button id="ecNext">›</button>
+        </span>
+      </div>
+      <div class="exam-cal" id="examCal"><div class="ec-dow">Du</div><div class="ec-dow">Se</div><div class="ec-dow">Ch</div><div class="ec-dow">Pa</div><div class="ec-dow">Ju</div><div class="ec-dow">Sh</div><div class="ec-dow">Ya</div><div class="ec-day" title="">1<div class="ec-dots"></div></div><div class="ec-day" title="">2<div class="ec-dots"></div></div><div class="ec-day" title="">3<div class="ec-dots"></div></div><div class="ec-day" title="">4<div class="ec-dots"></div></div><div class="ec-day" title="">5<div class="ec-dots"></div></div><div class="ec-day" title="">6<div class="ec-dots"></div></div><div class="ec-day" title="">7<div class="ec-dots"></div></div><div class="ec-day" title="">8<div class="ec-dots"></div></div><div class="ec-day" title="">9<div class="ec-dots"></div></div><div class="ec-day" title="">10<div class="ec-dots"></div></div><div class="ec-day" title="">11<div class="ec-dots"></div></div><div class="ec-day" title="">12<div class="ec-dots"></div></div><div class="ec-day" title="">13<div class="ec-dots"></div></div><div class="ec-day" title="">14<div class="ec-dots"></div></div><div class="ec-day" title="">15<div class="ec-dots"></div></div><div class="ec-day" title="">16<div class="ec-dots"></div></div><div class="ec-day" title="">17<div class="ec-dots"></div></div><div class="ec-day" title="">18<div class="ec-dots"></div></div><div class="ec-day" title="">19<div class="ec-dots"></div></div><div class="ec-day" title="">20<div class="ec-dots"></div></div><div class="ec-day" title="">21<div class="ec-dots"></div></div><div class="ec-day" title="">22<div class="ec-dots"></div></div><div class="ec-day" title="">23<div class="ec-dots"></div></div><div class="ec-day" title="">24<div class="ec-dots"></div></div><div class="ec-day" title="">25<div class="ec-dots"></div></div><div class="ec-day" title="">26<div class="ec-dots"></div></div><div class="ec-day" title="">27<div class="ec-dots"></div></div><div class="ec-day" title="">28<div class="ec-dots"></div></div><div class="ec-day today" title="">29<div class="ec-dots"></div></div><div class="ec-day" title="">30<div class="ec-dots"></div></div></div>
+      <div class="exam-legend" id="examLegend"><span class="lg"><span class="d" style="background:#4caf72"></span>IELTS</span><span class="lg"><span class="d" style="background:#4a90d9"></span>SAT</span><span class="lg"><span class="d" style="background:#9b6dd1"></span>TOEFL</span><span class="lg"><span class="d" style="background:#e0913f"></span>University Deadline</span><span class="lg"><span class="d" style="background:#d9534f"></span>Early Action</span><span class="lg"><span class="d" style="background:#8a93a6"></span>Boshqa</span></div>
+    </div>
+  </section>
+
+  <div class="footnote">
+    Ma'lumotlaring shu qurilma brauzerida saqlanadi. Faylni qayta ochsang ham yo'qolmaydi.
+  </div>
+</div>
+
+<!-- PiP host -->
+<div id="miniHome" style="display:none">
+  <div id="miniPanel" class="mini-panel" style="display:none">
+    <div class="mini-eyebrow">Ketma-ket taymer</div>
+    <div id="miniClock" class="mini-clock">00:00</div>
+    <div id="miniLabel" class="mini-label">—</div>
+    <div class="mini-bar-wrap"><div id="miniBarFill" class="mini-bar-fill"></div></div>
+    <div id="miniProgress" class="mini-progress">0/0</div>
+    <div class="mini-controls">
+      <button id="miniPauseBtn" class="mini-btn">⏸</button>
+      <button id="miniSkipBtn" class="mini-btn">⏭</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+"use strict";
+/* ============ data ============ */
+const STORE_KEY='fokus_v1';
+const STREAK_THRESHOLD=80; // % to count a day as "done"
+const CATEGORIES=[
+  {key:'satmath', label:'SAT Math',          color:'#6d9bd1'},
+  {key:'saten',   label:'SAT English',       color:'#8a7fd1'},
+  {key:'ibodat',  label:'Ibodat',            color:'#5fae8c'},
+  {key:'grammar', label:'English Grammar',   color:'#4fa3b8'},
+  {key:'sport',   label:'Sport',             color:'#e08e45'},
+  {key:'startup', label:'Startup',           color:'#b07fd1'},
+  {key:'olympiad',label:'Olympiads',         color:'#d4a93c'},
+  {key:'rest',    label:'Rest',              color:'#8a93a6'},
+  {key:'self',    label:'Self improvement',  color:'#cf7f9e'},
+  {key:'meals',   label:'Meals',             color:'#c9846f'}
+];
+const catMap=Object.fromEntries(CATEGORIES.map(c=>[c.key,c]));
+const FALLBACK_CAT={key:'self',label:'Self improvement',color:'#cf7f9e'};
+function getCat(key){ return catMap[key]||FALLBACK_CAT; }
+const UZ_MONTHS=['yanvar','fevral','mart','aprel','may','iyun','iyul','avgust','sentabr','oktabr','noyabr','dekabr'];
+const UZ_WEEK=['yakshanba','dushanba','seshanba','chorshanba','payshanba','juma','shanba'];
+const UZ_WK_SHORT=['Ya','Du','Se','Ch','Pa','Ju','Sh'];
+
+const pad=n=>String(n).padStart(2,'0');
+let _seq=Date.now();
+const uid=()=> 'x'+(_seq++).toString(36);
+
+function isoDate(d){ d=d?new Date(d):new Date(); return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate()); }
+const TODAY=isoDate();
+
+function blank(){ return {theme:'dark',templates:[],days:{},timerQueue:[],plans:[]}; }
+function loadStore(){ try{ const r=JSON.parse(localStorage.getItem(STORE_KEY)); return r&&r.days?r:blank(); }catch(e){ return blank(); } }
+let S=loadStore();
+function save(){ try{ localStorage.setItem(STORE_KEY,JSON.stringify(S)); }catch(e){} }
+/* migrate old category keys so existing data keeps a valid colour/label */
+(function migrateCats(){
+  const map={edu:'self',dam:'rest',other:'self'};
+  const fix=t=>{ if(t&&t.category&&!catMap[t.category]) t.category = map[t.category]||'self'; };
+  (S.templates||[]).forEach(fix);
+  Object.values(S.days||{}).forEach(d=>(d.tasks||[]).forEach(fix));
+  save();
+})();
+if(!Array.isArray(S.plans)) S.plans=[];
+if(!Array.isArray(S.exams)) S.exams=[];
+
+/* ============ day logic ============ */
+function getDay(date){ if(!S.days[date]) S.days[date]={tasks:[],note:'',skip:[]}; const d=S.days[date]; d.tasks=d.tasks||[]; d.skip=d.skip||[]; return d; }
+
+function seedToday(){
+  const day=getDay(TODAY);
+  const wd=new Date(TODAY+'T00:00:00').getDay();
+  let added=false;
+  S.templates.forEach(t=>{
+    if(!t.active) return;
+    const match = t.repeat==='daily'
+      || (t.repeat==='weekdays' && wd>=1 && wd<=5)
+      || (t.repeat==='custom' && (t.days||[]).includes(wd));
+    if(match && !day.skip.includes(t.id) && !day.tasks.some(x=>x.tplId===t.id)){
+      day.tasks.push({id:uid(),tplId:t.id,label:t.label,time:t.time||'',category:t.category||'other',durMin:+t.durMin||0,done:false});
+      added=true;
+    }
+  });
+  if(added && !day.ordered) sortDay(day);
+  save();
+}
+function sortDay(day){
+  day.tasks.sort((a,b)=>{
+    if(a.time&&b.time) return a.time.localeCompare(b.time);
+    if(a.time) return -1; if(b.time) return 1; return 0;
+  });
+}
+function completion(date){
+  const d=S.days[date]; if(!d||!d.tasks.length) return {done:0,total:0,pct:0};
+  const done=d.tasks.filter(t=>t.done).length;
+  return {done,total:d.tasks.length,pct:Math.round(done/d.tasks.length*100)};
+}
+function dayQualifies(date){ const c=completion(date); return c.total>0 && c.pct>=STREAK_THRESHOLD; }
+
+function currentStreak(){
+  let n=0; const dt=new Date(TODAY+'T00:00:00');
+  for(let i=0;i<730;i++){
+    const ds=isoDate(dt);
+    if(dayQualifies(ds)) n++;
+    else if(i>0) break; // today may still be in progress -> don't break on i===0
+    dt.setDate(dt.getDate()-1);
+  }
+  return n;
+}
+function longestStreak(){
+  const dates=Object.keys(S.days).filter(dayQualifies).sort();
+  if(!dates.length) return 0;
+  let best=1,run=1;
+  for(let i=1;i<dates.length;i++){
+    const prev=new Date(dates[i-1]+'T00:00:00'); prev.setDate(prev.getDate()+1);
+    if(isoDate(prev)===dates[i]){ run++; best=Math.max(best,run); } else run=1;
+  }
+  return best;
+}
+function totalCompleted(){
+  let n=0; for(const k in S.days) n+=S.days[k].tasks.filter(t=>t.done).length; return n;
+}
+function monthDates(year,month){ // month 0-based
+  const out=[]; const d=new Date(year,month,1);
+  while(d.getMonth()===month){ out.push(isoDate(d)); d.setDate(d.getDate()+1); }
+  return out;
+}
+function monthAvg(year,month){
+  const ds=monthDates(year,month).filter(x=>{const c=completion(x);return c.total>0;});
+  if(!ds.length) return 0;
+  return Math.round(ds.reduce((a,x)=>a+completion(x).pct,0)/ds.length);
+}
+
+/* ============ DOM ============ */
+const $=id=>document.getElementById(id);
+const root=document.documentElement;
+
+/* theme */
+function applyTheme(){ root.dataset.theme=S.theme; $('themeBtn').textContent = S.theme==='dark'?'☀️':'🌙'; }
+$('themeBtn').addEventListener('click',()=>{ S.theme=S.theme==='dark'?'light':'dark'; save(); applyTheme(); });
+
+/* date header */
+(function(){
+  const d=new Date();
+  $('dDay').textContent=d.getDate()+' '+UZ_MONTHS[d.getMonth()];
+  $('dWk').textContent=UZ_WEEK[d.getDay()];
+})();
+
+/* nav */
+document.querySelectorAll('.nav button').forEach(b=>{
+  b.addEventListener('click',()=>{
+    document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active'));
+    document.querySelectorAll('.view').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+    $('view-'+b.dataset.tab).classList.add('active');
+    if(b.dataset.tab==='stats') renderStats();
+    if(b.dataset.tab==='today') renderToday();
+    if(b.dataset.tab==='plans'){ renderTemplates(); renderPlans(); }
+    if(b.dataset.tab==='exams'){ renderExams(); startExamTicker(); } else { stopExamTicker(); }
+  });
+});
+
+/* fill category selects */
+function fillCats(sel){ sel.innerHTML=CATEGORIES.map(c=>`<option value="${c.key}">${c.label}</option>`).join(''); }
+fillCats($('qCat')); fillCats($('tCat'));
+
+function escapeHtml(s){ const d=document.createElement('div'); d.textContent=s; return d.innerHTML; }
+function fmtDur(min){ if(!min) return ''; const h=Math.floor(min/60),m=min%60; return h?(m?`${h}s ${m}d`:`${h}s`):`${m}d`; }
+function escapeAttr(s){ return String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+/* ============ schedule: start -> end calculation ============ */
+function toMin(t){ if(!t) return null; const p=t.split(':'); return (+p[0])*60+(+p[1]); }
+function fromMin(x){ x=Math.round(x); x=((x%1440)+1440)%1440; return pad(Math.floor(x/60))+':'+pad(x%60); }
+/* Walks tasks in order. First start time + durations chain forward automatically.
+   If a later task has its own start time and the previous one overruns it, the
+   overrun (oshib ketgan vaqt) is reported. */
+function computeSchedule(tasks){
+  let cursor=null, dayStart=null, dayEnd=null, total=0;
+  const rows=[];
+  tasks.forEach(t=>{
+    const dur=+t.durMin||0; total+=dur;
+    let start, overrun=0;
+    if(t.time){
+      const ex=toMin(t.time);
+      if(cursor!=null){ const diff=cursor-ex; if(diff>0 && diff<720) overrun=diff; }
+      start=ex;
+    } else { start = cursor; }
+    const end = start!=null ? start+dur : null;
+    if(start!=null && dayStart==null) dayStart=start;
+    if(end!=null) dayEnd=end; else if(start!=null) dayEnd=start;
+    cursor = end!=null ? end : (start!=null ? start : cursor);
+    rows.push({start,end,dur,overrun});
+  });
+  return {rows,dayStart,dayEnd,total};
+}
+
+let editingTaskId=null, editingTplId=null, tplEditDays=[];
+
+/* ============ generic drag & drop for any list ============ */
+function dragAfter(listEl,sel,y){
+  const els=[...listEl.querySelectorAll(sel+':not(.dragging)')];
+  let closest={offset:-Infinity,el:null};
+  els.forEach(child=>{
+    const box=child.getBoundingClientRect();
+    const offset=y-box.top-box.height/2;
+    if(offset<0 && offset>closest.offset) closest={offset,el:child};
+  });
+  return closest.el;
+}
+function enableDnD(listEl,sel,getArr,after){
+  let id=null;
+  listEl.addEventListener('dragstart',e=>{
+    const li=e.target.closest(sel); if(!li||li.getAttribute('draggable')!=='true') return;
+    id=li.dataset.id; li.classList.add('dragging');
+    e.dataTransfer.effectAllowed='move';
+    try{ e.dataTransfer.setData('text/plain',id); }catch(_){}
+  });
+  listEl.addEventListener('dragover',e=>{
+    if(!id) return; e.preventDefault();
+    const dragging=listEl.querySelector('.dragging'); if(!dragging) return;
+    const aft=dragAfter(listEl,sel,e.clientY);
+    if(aft==null) listEl.appendChild(dragging); else listEl.insertBefore(dragging,aft);
+  });
+  listEl.addEventListener('drop',e=>{ if(id) e.preventDefault(); });
+  listEl.addEventListener('dragend',()=>{
+    const d=listEl.querySelector('.dragging'); if(d) d.classList.remove('dragging');
+    if(id){
+      const ids=[...listEl.querySelectorAll(sel)].map(li=>li.dataset.id);
+      getArr().sort((a,b)=>ids.indexOf(a.id)-ids.indexOf(b.id));
+      id=null; after();
+    }
+  });
+}
+
+/* ============ TODAY render ============ */
+function renderToday(){
+  const day=getDay(TODAY);
+  const list=$('todayList'), empty=$('todayEmpty');
+  list.innerHTML='';
+  const sched=computeSchedule(day.tasks);
+
+  // schedule banner
+  const strip=$('todaySchedule');
+  if(day.tasks.length && sched.dayStart!=null){
+    const overTotal=sched.rows.reduce((a,r)=>a+r.overrun,0);
+    strip.style.display='flex';
+    strip.innerHTML=`<span>🕘 Boshlanish <b>${fromMin(sched.dayStart)}</b></span>
+      <span>🏁 Tugash <b>${fromMin(sched.dayEnd)}</b></span>
+      <span>Σ Jami reja <b>${fmtDur(sched.total)||'0d'}</b></span>
+      ${overTotal>0?`<span class="warn">⚠ ${fmtDur(overTotal)} oshib ketgan</span>`:''}`;
+  } else strip.style.display='none';
+
+  if(!day.tasks.length){ empty.style.display='flex'; }
+  else{
+    empty.style.display='none';
+    day.tasks.forEach((t,i)=>{
+      if(editingTaskId===t.id){ list.appendChild(taskEditRow(t)); return; }
+      const c=getCat(t.category);
+      const r=sched.rows[i];
+      let timeHtml;
+      if(r.start!=null && r.dur>0) timeHtml=`<span class="ts">${fromMin(r.start)}</span><span class="te">→ ${fromMin(r.end)}</span>`;
+      else if(r.start!=null) timeHtml=`<span class="ts">${fromMin(r.start)}</span>`;
+      else timeHtml=`<span class="ts none">—</span>`;
+      const over = r.overrun>0 ? `<span class="overrun">+${fmtDur(r.overrun)} oshdi</span>` : '';
+      const li=document.createElement('li');
+      li.className='task'+(t.done?' done':'');
+      li.dataset.id=t.id; li.setAttribute('draggable','true');
+      li.innerHTML=`
+        <span class="grip" title="Ushlab torting">⠿</span>
+        <button class="checkbox" data-act="toggle" data-id="${t.id}" aria-label="Belgilash">✓</button>
+        <div class="t-time2">${timeHtml}</div>
+        <div class="t-main">
+          <div class="t-label">${escapeHtml(t.label)}</div>
+          <div class="t-meta">
+            <span class="cat-dot" style="background:${c.color}"></span>
+            <span class="t-cat">${c.label}</span>
+            ${t.durMin?`<span class="t-dur">· ${fmtDur(t.durMin)}</span>`:''}
+            ${t.carriedFrom?`<span class="carried-badge">↩ kechagi</span>`:''}
+            ${over}
+          </div>
+        </div>
+        <div class="t-actions">
+          <button class="icon-btn" data-act="edit" data-id="${t.id}" aria-label="Tahrirlash">✎</button>
+          <button class="icon-btn danger" data-act="del" data-id="${t.id}" aria-label="O'chirish">×</button>
+        </div>`;
+      list.appendChild(li);
+    });
+  }
+  // hero
+  const c=completion(TODAY);
+  const R=56, CIRC=2*Math.PI*R;
+  const ring=$('ring');
+  ring.style.strokeDasharray=CIRC.toFixed(1);
+  ring.style.strokeDashoffset=(CIRC*(1-c.pct/100)).toFixed(1);
+  ring.classList.toggle('full',c.pct===100);
+  $('ringPct').textContent=c.pct+'%';
+  $('todayDone').textContent = c.total?`${c.done}/${c.total}`:'';
+
+  let status,sub;
+  if(c.total===0){ status="Bugun uchun reja yo'q"; sub="Quyida birinchi ishingni qo'sh yoki «Rejalar»da har kuni takrorlanadigan odat yarat."; }
+  else if(c.pct===100){ status="Bugungi reja to'liq bajarildi ✓"; sub="Zo'r ish! Bugun barcha "+c.total+" ta vazifa yopildi."; }
+  else if(c.pct>=STREAK_THRESHOLD){ status="Kun bajarildi deb hisoblanadi"; sub=`${c.done}/${c.total} bajarildi — yana ${c.total-c.done} ta qoldi.`; }
+  else { status=`${c.done}/${c.total} bajarildi`; sub=`Kun «bajarildi» bo'lishi uchun kamida ${STREAK_THRESHOLD}% kerak. Davom et!`; }
+  $('heroStatus').textContent=status; $('heroSub').textContent=sub;
+
+  $('msStreak').textContent=currentStreak();
+  $('msTasks').textContent=c.done+'/'+c.total;
+  const totalMin=day.tasks.reduce((a,t)=>a+(+t.durMin||0),0);
+  $('msTime').textContent=fmtDur(totalMin)||'0d';
+  renderCarry();
+}
+
+/* ---- carry-over: yesterday's unfinished tasks ---- */
+function lastUnfinished(){
+  const d=new Date(TODAY+'T00:00:00');
+  for(let i=1;i<=7;i++){
+    d.setDate(d.getDate()-1);
+    const ds=isoDate(d); const day=S.days[ds];
+    if(day && day.tasks && day.tasks.length){
+      return {date:ds, undone:day.tasks.filter(t=>!t.done)};
+    }
+  }
+  return null;
+}
+function renderCarry(){
+  const box=$('carryAlert'); const today=getDay(TODAY);
+  if(today.carryDismissed){ box.innerHTML=''; return; }
+  const info=lastUnfinished();
+  if(!info){ box.innerHTML=''; return; }
+  const carried=new Set(today.tasks.filter(t=>t.carriedFrom).map(t=>t.carriedFrom));
+  const pending=info.undone.filter(t=>!carried.has(t.id));
+  if(!pending.length){ box.innerHTML=''; return; }
+  const d=new Date(info.date+'T00:00:00');
+  const dateLbl=`${d.getDate()} ${UZ_MONTHS[d.getMonth()]}, ${UZ_WEEK[d.getDay()]}`;
+  box.innerHTML=`<div class="carry-alert">
+    <div class="ca-head"><span class="ca-ic">⚠️</span><h3>Bajarilmagan ishlar bor!</h3></div>
+    <p class="ca-sub"><b>${dateLbl}</b> kuni <b>${pending.length} ta</b> ish yopilmadi. Bugun albatta bajar — bo'lmasa streak uziladi va orqada qolasan.</p>
+    <div class="carry-chips">${pending.map(t=>`<span class="cc">${escapeHtml(t.label)}</span>`).join('')}</div>
+    <span class="ca-rule">QOIDA: bir kun qilinmagan ish ertasiga ko'chiriladi — qarz qolmaydi</span>
+    <div class="carry-actions">
+      <button class="btn btn-primary" id="carryBtn">↩ Bugunga ko'chirish (${pending.length})</button>
+      <button class="btn btn-secondary" id="carryDismiss">Bugun yashirish</button>
+    </div>
+  </div>`;
+  $('carryBtn').onclick=()=>{
+    pending.forEach(t=>{ today.tasks.push({id:uid(),tplId:null,label:t.label,time:t.time||'',category:t.category,durMin:+t.durMin||0,done:false,carriedFrom:t.id}); });
+    today.ordered=true; save(); renderToday();
+  };
+  $('carryDismiss').onclick=()=>{ today.carryDismissed=true; save(); renderToday(); };
+}
+
+function taskEditRow(t){
+  const li=document.createElement('li');
+  li.className='task editing'; li.dataset.id=t.id;
+  li.innerHTML=`<div class="edit-form" data-id="${t.id}">
+    <input class="ed-label" type="text" value="${escapeAttr(t.label)}" placeholder="Ish nomi">
+    <div class="ed-row">
+      <input class="ed-time" type="time" value="${t.time||''}">
+      <input class="ed-dur" type="number" min="0" max="999" value="${t.durMin||''}" placeholder="daq">
+      <select class="ed-cat">${CATEGORIES.map(c=>`<option value="${c.key}" ${c.key===t.category?'selected':''}>${c.label}</option>`).join('')}</select>
+    </div>
+    <div class="ed-actions">
+      <button class="btn btn-primary" data-act="save" data-id="${t.id}">Saqlash</button>
+      <button class="btn btn-secondary" data-act="cancel" data-id="${t.id}">Bekor</button>
+    </div>
+  </div>`;
+  return li;
+}
+
+$('todayList').addEventListener('click',e=>{
+  const btn=e.target.closest('button[data-act]'); if(!btn) return;
+  const day=getDay(TODAY); const id=btn.dataset.id; const act=btn.dataset.act;
+  const idx=day.tasks.findIndex(t=>t.id===id);
+  if(act==='cancel'){ editingTaskId=null; renderToday(); return; }
+  if(act==='save'){
+    if(idx<0) return;
+    const form=btn.closest('.edit-form');
+    const label=form.querySelector('.ed-label').value.trim();
+    if(!label){ form.querySelector('.ed-label').focus(); return; }
+    const t=day.tasks[idx];
+    t.label=label;
+    t.time=form.querySelector('.ed-time').value||'';
+    t.durMin=+form.querySelector('.ed-dur').value||0;
+    t.category=form.querySelector('.ed-cat').value;
+    editingTaskId=null; save(); renderToday(); return;
+  }
+  if(idx<0) return;
+  if(act==='toggle'){ day.tasks[idx].done=!day.tasks[idx].done; }
+  else if(act==='edit'){ editingTaskId=id; renderToday(); return; }
+  else if(act==='del'){
+    const t=day.tasks[idx];
+    if(t.tplId && !day.skip.includes(t.tplId)) day.skip.push(t.tplId);
+    day.tasks.splice(idx,1);
+  }
+  save(); renderToday();
+});
+$('sortTimeBtn').addEventListener('click',()=>{ const day=getDay(TODAY); sortDay(day); day.ordered=false; save(); renderToday(); });
+enableDnD($('todayList'),'.task',()=>getDay(TODAY).tasks,()=>{ getDay(TODAY).ordered=true; save(); renderToday(); });
+
+$('qAdd').addEventListener('click',()=>{
+  const label=$('qLabel').value.trim(); if(!label) return $('qLabel').focus();
+  const day=getDay(TODAY);
+  day.tasks.push({id:uid(),tplId:null,label,time:$('qTime').value||'',category:$('qCat').value,durMin:+$('qDur').value||0,done:false});
+  day.ordered=true; save();
+  $('qLabel').value='';$('qTime').value='';$('qDur').value='';$('qLabel').focus();
+  renderToday();
+});
+$('qLabel').addEventListener('keydown',e=>{ if(e.key==='Enter') $('qAdd').click(); });
+
+/* ============ PLANS / templates ============ */
+let tplDays=[1,2,3,4,5];
+function renderDayPicker(){
+  const wrap=$('tDays'); wrap.innerHTML='';
+  for(let i=1;i<=7;i++){ const wd=i%7; // Mon..Sun order
+    const b=document.createElement('button');
+    b.type='button'; b.textContent=UZ_WK_SHORT[wd];
+    b.className=tplDays.includes(wd)?'on':'';
+    b.addEventListener('click',()=>{
+      if(tplDays.includes(wd)) tplDays=tplDays.filter(x=>x!==wd); else tplDays.push(wd);
+      renderDayPicker();
+    });
+    wrap.appendChild(b);
+  }
+}
+$('tRepeat').addEventListener('change',()=>{
+  const v=$('tRepeat').value;
+  $('tDays').style.opacity=v==='custom'?'1':'.4';
+  $('tDays').style.pointerEvents=v==='custom'?'auto':'none';
+  if(v==='weekdays') tplDays=[1,2,3,4,5];
+  if(v==='daily') tplDays=[0,1,2,3,4,5,6];
+  renderDayPicker();
+});
+renderDayPicker(); $('tDays').style.opacity='.4'; $('tDays').style.pointerEvents='none';
+
+$('tAdd').addEventListener('click',()=>{
+  const label=$('tLabel').value.trim(); if(!label) return $('tLabel').focus();
+  const repeat=$('tRepeat').value;
+  let days=[];
+  if(repeat==='daily') days=[0,1,2,3,4,5,6];
+  else if(repeat==='weekdays') days=[1,2,3,4,5];
+  else days=tplDays.slice();
+  S.templates.push({id:uid(),label,time:$('tTime').value||'',category:$('tCat').value,durMin:+$('tDur').value||0,repeat,days,active:true});
+  save();
+  $('tLabel').value='';$('tTime').value='';$('tDur').value='';
+  seedToday(); renderTemplates(); renderToday();
+});
+$('tLabel').addEventListener('keydown',e=>{ if(e.key==='Enter') $('tAdd').click(); });
+
+function repeatLabel(t){
+  if(t.repeat==='daily') return 'har kuni';
+  if(t.repeat==='weekdays') return 'ish kunlari';
+  return (t.days||[]).slice().sort().map(d=>UZ_WK_SHORT[d]).join(', ')||'—';
+}
+function renderTemplates(){
+  const list=$('tplList'), empty=$('tplEmpty'); list.innerHTML='';
+  if(!S.templates.length){ empty.style.display='flex'; return; }
+  empty.style.display='none';
+  S.templates.forEach((t,i)=>{
+    if(editingTplId===t.id){ list.appendChild(tplEditRow(t)); return; }
+    const c=getCat(t.category);
+    const li=document.createElement('li');
+    li.className='tpl'+(t.active?'':' off');
+    li.dataset.id=t.id; li.setAttribute('draggable','true');
+    li.innerHTML=`
+      <span class="grip" title="Ushlab torting">⠿</span>
+      <div class="toggle ${t.active?'on':''}" data-act="toggle" data-id="${t.id}" role="button" aria-label="Yoqish"></div>
+      <div class="tpl-main">
+        <div class="tpl-label">${escapeHtml(t.label)}</div>
+        <div class="tpl-sub">
+          <span class="cat-dot" style="background:${c.color}"></span>${c.label}${t.time?' · '+t.time:''}${t.durMin?' · '+fmtDur(t.durMin):''} · ${repeatLabel(t)}
+        </div>
+      </div>
+      <div class="t-actions">
+        <button class="icon-btn" data-act="edit" data-id="${t.id}" aria-label="Tahrirlash">✎</button>
+        <button class="icon-btn danger" data-act="del" data-id="${t.id}" aria-label="O'chirish">×</button>
+      </div>`;
+    list.appendChild(li);
+  });
+}
+function tplEditRow(t){
+  const li=document.createElement('li'); li.className='tpl editing'; li.dataset.id=t.id;
+  const custom=t.repeat==='custom';
+  const dayBtns=[1,2,3,4,5,6,0].map(wd=>`<button type="button" class="${tplEditDays.includes(wd)?'on':''}" data-act="eday" data-wd="${wd}">${UZ_WK_SHORT[wd]}</button>`).join('');
+  li.innerHTML=`<div class="edit-form" data-id="${t.id}">
+    <input class="ed-label" type="text" value="${escapeAttr(t.label)}" placeholder="Odat nomi">
+    <div class="ed-row">
+      <input class="ed-time" type="time" value="${t.time||''}">
+      <input class="ed-dur" type="number" min="0" max="999" value="${t.durMin||''}" placeholder="daq">
+      <select class="ed-cat">${CATEGORIES.map(c=>`<option value="${c.key}" ${c.key===t.category?'selected':''}>${c.label}</option>`).join('')}</select>
+    </div>
+    <div class="ed-row">
+      <select class="ed-rep">
+        <option value="daily" ${t.repeat==='daily'?'selected':''}>Har kuni</option>
+        <option value="weekdays" ${t.repeat==='weekdays'?'selected':''}>Ish kunlari</option>
+        <option value="custom" ${custom?'selected':''}>Tanlangan kunlar</option>
+      </select>
+      <div class="daypick ed-days" style="opacity:${custom?'1':'.4'};pointer-events:${custom?'auto':'none'}">${dayBtns}</div>
+    </div>
+    <div class="ed-actions">
+      <button class="btn btn-primary" data-act="tsave" data-id="${t.id}">Saqlash</button>
+      <button class="btn btn-secondary" data-act="tcancel" data-id="${t.id}">Bekor</button>
+    </div>
+  </div>`;
+  return li;
+}
+$('tplList').addEventListener('click',e=>{
+  const el=e.target.closest('[data-act]'); if(!el) return;
+  const id=el.dataset.id; const act=el.dataset.act;
+  const idx=S.templates.findIndex(t=>t.id===id);
+  if(act==='tcancel'){ editingTplId=null; renderTemplates(); return; }
+  if(act==='eday'){
+    const wd=+el.dataset.wd;
+    if(tplEditDays.includes(wd)){ tplEditDays=tplEditDays.filter(x=>x!==wd); el.classList.remove('on'); }
+    else { tplEditDays.push(wd); el.classList.add('on'); }
+    return;
+  }
+  if(act==='tsave'){
+    if(idx<0) return;
+    const form=el.closest('.edit-form');
+    const label=form.querySelector('.ed-label').value.trim();
+    if(!label){ form.querySelector('.ed-label').focus(); return; }
+    const rep=form.querySelector('.ed-rep').value;
+    const days = rep==='daily'?[0,1,2,3,4,5,6] : rep==='weekdays'?[1,2,3,4,5] : tplEditDays.slice();
+    const t=S.templates[idx];
+    t.label=label;
+    t.time=form.querySelector('.ed-time').value||'';
+    t.durMin=+form.querySelector('.ed-dur').value||0;
+    t.category=form.querySelector('.ed-cat').value;
+    t.repeat=rep; t.days=days;
+    editingTplId=null; save(); seedToday(); renderTemplates(); renderToday(); return;
+  }
+  if(idx<0) return;
+  if(act==='toggle'){ S.templates[idx].active=!S.templates[idx].active; }
+  else if(act==='edit'){ editingTplId=id; tplEditDays=[...(S.templates[idx].days||[])]; renderTemplates(); return; }
+  else if(act==='del'){ S.templates.splice(idx,1); }
+  save(); renderTemplates(); seedToday(); renderToday();
+});
+enableDnD($('tplList'),'.tpl',()=>S.templates,()=>{ save(); renderTemplates(); seedToday(); renderToday(); });
+
+/* ============ saved plans (qutilar) ============ */
+let editingPlanId=null;
+function ensurePlanIds(p){ p.tasks.forEach(t=>{ if(!t.id) t.id=uid(); }); }
+function planDots(p){
+  const cats=[...new Set(p.tasks.map(t=>t.category))].slice(0,6);
+  return cats.map(k=>`<span class="cat-dot" style="background:${getCat(k).color}"></span>`).join('');
+}
+function paletteHtml(){
+  const tasks=getDay(TODAY).tasks;
+  if(!tasks.length) return '<span style="color:var(--text-muted);font-size:12px">Bugun ish yo\'q — «Bugun» bo\'limida qo\'sh.</span>';
+  return tasks.map(t=>{
+    const c=getCat(t.category);
+    const payload=escapeAttr(JSON.stringify({label:t.label,time:t.time||'',category:t.category,durMin:+t.durMin||0}));
+    return `<span class="pal-task" draggable="true" data-payload="${payload}"><span class="cat-dot" style="background:${c.color}"></span>${escapeHtml(t.label)}</span>`;
+  }).join('');
+}
+function planBody(p){
+  const tasks = p.tasks.length ? `<ul class="pe-list" data-plan="${p.id}">${p.tasks.map(t=>{
+    const c=getCat(t.category);
+    return `<li class="pe-task" draggable="true" data-id="${t.id}">
+      <span class="grip" title="Tartib">⠿</span>
+      <span class="pt-time ${t.time?'':'none'}">${t.time||'—'}</span>
+      <span class="cat-dot" style="background:${c.color}"></span>
+      <span class="pt-label">${escapeHtml(t.label)}${t.durMin?` · <span class="pt-dur">${fmtDur(t.durMin)}</span>`:''}</span>
+      <button class="icon-btn danger" data-act="ptdel" data-id="${p.id}" data-tid="${t.id}" aria-label="O'chirish">×</button>
+    </li>`;
+  }).join('')}</ul>` : '';
+  return `<div class="plan-body">
+    <input class="pe-name" type="text" value="${escapeAttr(p.name)}" placeholder="Reja nomi">
+    ${tasks}
+    <div class="dropzone" data-plan="${p.id}">⤓ Bugungi ishni tortib shu yerga tashla</div>
+    <div class="palette">
+      <div class="pal-title">Bugungi ishlar — qutiga tortib tashla</div>
+      <div class="pal-row">${paletteHtml()}</div>
+    </div>
+    <div class="pe-add">
+      <input class="pa-label" type="text" placeholder="Yangi ish nomi">
+      <input class="pa-time" type="time">
+      <input class="pa-dur" type="number" min="0" max="999" placeholder="daq">
+      <select class="pa-cat">${CATEGORIES.map(c=>`<option value="${c.key}">${c.label}</option>`).join('')}</select>
+      <button class="btn btn-secondary" data-act="ptadd" data-id="${p.id}" style="padding:9px 14px">+ Qo'lda</button>
+    </div>
+    <div class="ed-actions" style="margin-top:13px">
+      <button class="btn btn-primary" data-act="psave" data-id="${p.id}">Saqlash</button>
+      <button class="btn btn-secondary" data-act="pclose" data-id="${p.id}">Yopish</button>
+      <button class="btn btn-danger" data-act="del" data-id="${p.id}">O'chirish</button>
+    </div>
+  </div>`;
+}
+function renderPlans(){
+  const list=$('planList'), empty=$('planEmpty'); if(!list) return; list.innerHTML='';
+  if(!S.plans.length){ empty.style.display='flex'; return; }
+  empty.style.display='none';
+  S.plans.forEach(p=>{
+    ensurePlanIds(p);
+    const open=editingPlanId===p.id;
+    const total=p.tasks.reduce((a,t)=>a+(+t.durMin||0),0);
+    const li=document.createElement('li'); li.className='plan-card'+(open?' open':'');
+    li.innerHTML=`
+      <div class="plan-head" data-act="toggle" data-id="${p.id}">
+        <span class="plan-folder">${open?'📂':'🗂'}</span>
+        <div class="plan-main">
+          <div class="plan-name">${escapeHtml(p.name)}</div>
+          <div class="plan-sub"><span class="plan-dots">${planDots(p)}</span> ${p.tasks.length} ish${total?' · '+fmtDur(total):''}</div>
+        </div>
+        <div class="plan-quick">
+          <button class="icon-btn" data-act="load" data-id="${p.id}" title="Bugunga qo'shish">↧</button>
+          <button class="icon-btn" data-act="replace" data-id="${p.id}" title="Bugunni almashtirish">⇄</button>
+          <span class="plan-chev">▸</span>
+        </div>
+      </div>
+      ${open?planBody(p):''}`;
+    list.appendChild(li);
+    if(open) wireBox(li,p);
+  });
+}
+function captureName(b,plan){ const body=b.closest('.plan-card'); if(body){ const f=body.querySelector('.pe-name'); if(f){ const v=f.value.trim(); if(v) plan.name=v; } } }
+function wireBox(li,p){
+  const ul=li.querySelector('.pe-list');
+  if(ul) enableDnD(ul,'.pe-task',()=>p.tasks,()=>{ save(); });
+  li.querySelectorAll('.pal-task').forEach(el=>{
+    el.addEventListener('dragstart',e=>{ el.classList.add('dragging'); e.dataTransfer.effectAllowed='copy'; try{ e.dataTransfer.setData('application/json', el.dataset.payload); }catch(_){}});
+    el.addEventListener('dragend',()=>el.classList.remove('dragging'));
+  });
+  const body=li.querySelector('.plan-body'); const dz=li.querySelector('.dropzone');
+  if(body){
+    body.addEventListener('dragover',e=>{ if([...e.dataTransfer.types].includes('application/json')){ e.preventDefault(); e.dataTransfer.dropEffect='copy'; if(dz) dz.classList.add('over'); } });
+    body.addEventListener('dragleave',e=>{ if(dz && !body.contains(e.relatedTarget)) dz.classList.remove('over'); });
+    body.addEventListener('drop',e=>{
+      let data=null; try{ data=JSON.parse(e.dataTransfer.getData('application/json')); }catch(_){}
+      if(data && data.label){ e.preventDefault(); if(dz) dz.classList.remove('over'); captureNameEl(body,p); p.tasks.push({id:uid(),label:data.label,time:data.time||'',category:data.category||'self',durMin:+data.durMin||0}); save(); renderPlans(); }
+    });
+  }
+}
+function captureNameEl(body,plan){ const f=body.querySelector('.pe-name'); if(f){ const v=f.value.trim(); if(v) plan.name=v; } }
+$('planList').addEventListener('click',e=>{
+  const b=e.target.closest('[data-act]'); if(!b) return;
+  const id=b.dataset.id; const act=b.dataset.act; const idx=S.plans.findIndex(p=>p.id===id);
+  if(idx<0) return; const plan=S.plans[idx];
+  if(act==='toggle'){ editingPlanId = editingPlanId===id ? null : id; renderPlans(); return; }
+  if(act==='load'||act==='replace'){
+    const today=getDay(TODAY);
+    if(act==='replace') today.tasks=[];
+    plan.tasks.forEach(t=>today.tasks.push({id:uid(),tplId:null,label:t.label,time:t.time||'',category:t.category||'self',durMin:+t.durMin||0,done:false}));
+    today.ordered=true; save(); renderToday();
+    document.querySelector('.nav button[data-tab="today"]').click();
+    return;
+  }
+  if(act==='del'){ if(confirm("Bu reja qutisi o'chirilsinmi?")){ S.plans.splice(idx,1); editingPlanId=null; save(); renderPlans(); } return; }
+  if(act==='pclose'){ captureName(b,plan); save(); editingPlanId=null; renderPlans(); return; }
+  if(act==='ptdel'){ captureName(b,plan); const tid=b.dataset.tid; const i=plan.tasks.findIndex(t=>t.id===tid); if(i>=0) plan.tasks.splice(i,1); save(); renderPlans(); return; }
+  if(act==='ptadd'){
+    captureName(b,plan);
+    const body=b.closest('.plan-card');
+    const label=body.querySelector('.pa-label').value.trim(); if(!label){ body.querySelector('.pa-label').focus(); return; }
+    plan.tasks.push({id:uid(),label,time:body.querySelector('.pa-time').value||'',category:body.querySelector('.pa-cat').value,durMin:+body.querySelector('.pa-dur').value||0});
+    save(); renderPlans();
+    const ne=$('planList').querySelector('.plan-card.open .pa-label'); if(ne) ne.focus();
+    return;
+  }
+  if(act==='psave'){ captureName(b,plan); save(); editingPlanId=null; renderPlans(); return; }
+});
+function savePlanFrom(tasks,defName){
+  if(!tasks.length){ alert("Ish yo'q — avval ish qo'sh."); return; }
+  const name=prompt('Reja qutisi nomi:', defName); if(name===null) return;
+  S.plans.unshift({id:uid(),name:(name.trim()||defName),tasks:tasks.map(t=>({id:uid(),label:t.label,time:t.time||'',category:t.category,durMin:+t.durMin||0}))});
+  editingPlanId=null; save(); renderPlans();
+  alert("Saqlandi! «Rejalar» bo'limidagi qutilarda turibdi.");
+}
+$('savePlanBtn').addEventListener('click',()=>{
+  const d=new Date();
+  savePlanFrom(getDay(TODAY).tasks, `${d.getDate()} ${UZ_MONTHS[d.getMonth()]} rejasi`);
+});
+
+/* ============================================================
+   EXAMS — countdown tracker
+============================================================ */
+const EXAM_TYPES=[
+  {key:'ielts',   label:'IELTS',              color:'#4caf72', icon:'📗'},
+  {key:'sat',     label:'SAT',                color:'#4a90d9', icon:'📘'},
+  {key:'toefl',   label:'TOEFL',              color:'#9b6dd1', icon:'📕'},
+  {key:'deadline',label:'University Deadline', color:'#e0913f', icon:'🏛️'},
+  {key:'early',   label:'Early Action',       color:'#d9534f', icon:'⚡'},
+  {key:'other',   label:'Boshqa',             color:'#8a93a6', icon:'📌'}
+];
+const examTypeMap=Object.fromEntries(EXAM_TYPES.map(t=>[t.key,t]));
+function getExamType(k){ return examTypeMap[k]||examTypeMap.other; }
+const MOTIV=[
+  "Success is built one day at a time.",
+  "Har kuni kichik qadam — katta natija.",
+  "Tayyorgarlik — g'alabaning yarmi.",
+  "Bugun mehnat qil, ertaga faxrlanasan.",
+  "Intizom — erkinlikning kaliti.",
+  "Kichik odatlar buyuk natijalar yaratadi.",
+  "Sen o'ylaganingdan kuchliroqsan."
+];
+let examFilter='all', examSort='date', examSearch='', editingExamId=null, examTicker=null;
+let examCalMonth=new Date();
+const examFired={};
+
+function examTarget(ex){ return new Date(ex.date+'T'+(ex.time||'09:00')+':00'); }
+function examMs(ex){ return examTarget(ex).getTime()-Date.now(); }
+function examCompleted(ex){ return examMs(ex)<=0; }
+function examDaysLeft(ex){ return Math.ceil(examMs(ex)/864e5); }
+function examProgress(ex){ const t=examTarget(ex).getTime(); const a=ex.addedAt||(t-90*864e5); if(t<=a) return 100; return Math.max(0,Math.min(1,(Date.now()-a)/(t-a)))*100; }
+function breakdown(ms){ ms=Math.max(0,ms); const s=Math.floor(ms/1000); return {d:Math.floor(s/86400),h:Math.floor(s%86400/3600),m:Math.floor(s%3600/60),s:s%60}; }
+
+function examsFiltered(){
+  let list=S.exams.slice();
+  const q=examSearch.trim().toLowerCase();
+  if(q) list=list.filter(e=>e.name.toLowerCase().includes(q)||getExamType(e.type).label.toLowerCase().includes(q));
+  if(examFilter==='upcoming') list=list.filter(e=>!examCompleted(e));
+  else if(examFilter==='completed') list=list.filter(e=>examCompleted(e));
+  if(examSort==='name') list.sort((a,b)=>a.name.localeCompare(b.name));
+  else list.sort((a,b)=>examTarget(a)-examTarget(b)); // soonest first; past ones first within
+  // keep manual order only when no search/sort override? default date sort is fine
+  return list;
+}
+function nearestExam(){
+  const up=S.exams.filter(e=>!examCompleted(e)).sort((a,b)=>examTarget(a)-examTarget(b));
+  return up[0]||null;
+}
+
+function renderExamDash(){
+  const box=$('examDash'); if(!box) return;
+  const h=new Date().getHours();
+  const greet = h<12?'Good Morning':h<18?'Good Afternoon':'Good Evening';
+  const up=S.exams.filter(e=>!examCompleted(e));
+  const near=nearestExam();
+  const motiv=MOTIV[new Date().getDate()%MOTIV.length];
+  let nearHtml;
+  if(near){
+    const c=getExamType(near.type); const b=breakdown(examMs(near)); const prog=examProgress(near);
+    const R=34,CIRC=2*Math.PI*R;
+    nearHtml=`<div class="dash-nearest" data-near="${near.id}">
+        <div class="dash-near-lbl">Eng yaqin imtihon</div>
+        <div class="dash-near-name"><span>${c.icon}</span>${escapeHtml(near.name)}</div>
+        <div class="dash-near-days" id="dashNearDays">${b.d} kun ${b.h} soat qoldi</div>
+        <div class="dash-prog"><i id="dashProg" style="width:${prog}%"></i></div>
+      </div>
+      <div class="dash-ring">
+        <svg width="80" height="80" viewBox="0 0 80 80">
+          <circle class="er-bg" cx="40" cy="40" r="34" fill="none" stroke-width="7"/>
+          <circle cx="40" cy="40" r="34" fill="none" stroke-width="7" stroke-linecap="round"
+            transform="rotate(-90 40 40)" stroke="${c.color}" id="dashRing"
+            stroke-dasharray="${CIRC.toFixed(1)}" stroke-dashoffset="${(CIRC*(1-prog/100)).toFixed(1)}"/>
+        </svg>
+      </div>`;
+  } else {
+    nearHtml=`<div class="dash-nearest"><div class="dash-near-lbl">Eng yaqin imtihon</div><div class="dash-near-name" style="color:var(--text-muted)">Yo'q</div><div class="dash-near-days">Imtihon qo'shsang shu yerda chiqadi</div></div>`;
+  }
+  box.innerHTML=`
+    <div class="dash-greet">${greet}, Elyor 👋</div>
+    <div class="dash-sub">Sizda ${up.length} ta kelayotgan imtihon bor.</div>
+    <div class="dash-row">${nearHtml}</div>
+    <div class="dash-motiv">“${motiv}”</div>`;
+}
+function renderExamStats(){
+  const box=$('examStats'); if(!box) return;
+  const total=S.exams.length;
+  const completed=S.exams.filter(examCompleted).length;
+  const upList=S.exams.filter(e=>!examCompleted(e));
+  const upcoming=upList.length;
+  const near=nearestExam();
+  const avg=upcoming?Math.round(upList.reduce((a,e)=>a+Math.max(0,examDaysLeft(e)),0)/upcoming):0;
+  const stat=(v,k,small)=>`<div class="exam-stat"><div class="v${small?' small':''}">${v}</div><div class="k">${k}</div></div>`;
+  box.innerHTML=
+    stat(total,'Total Exams')+
+    stat(near?getExamType(near.type).icon+' '+escapeHtml(near.name):'—','Nearest',true)+
+    stat(avg+' kun','Avg Days Left')+
+    stat(completed,'Completed')+
+    stat(upcoming,'Upcoming');
+}
+function examCardHtml(ex,isNear){
+  const c=getExamType(ex.type); const done=examCompleted(ex);
+  const b=breakdown(examMs(ex)); const prog=examProgress(ex);
+  const R=31,CIRC=2*Math.PI*R;
+  const d=new Date(ex.date+'T00:00:00');
+  const dateStr=`${d.getDate()} ${UZ_MONTHS[d.getMonth()]} ${d.getFullYear()}${ex.time?' · '+ex.time:''}`;
+  const ringOrTag = done
+    ? `<div class="exam-ring"><svg width="74" height="74" viewBox="0 0 74 74"><circle class="er-bg" cx="37" cy="37" r="31" fill="none" stroke-width="6"/></svg><div class="er-center"><div class="er-num" style="color:var(--done)">✓</div></div></div>`
+    : `<div class="exam-ring"><svg width="74" height="74" viewBox="0 0 74 74">
+         <circle class="er-bg" cx="37" cy="37" r="31" fill="none" stroke-width="6"/>
+         <circle class="er-fg" cx="37" cy="37" r="31" fill="none" stroke-width="6" data-ring="${ex.id}"
+           stroke-dasharray="${CIRC.toFixed(1)}" stroke-dashoffset="${(CIRC*(1-prog/100)).toFixed(1)}"/>
+       </svg><div class="er-center"><div class="er-num" data-d="${ex.id}">${b.d}</div><div class="er-unit">kun</div></div></div>`;
+  const body = done
+    ? `<div class="exam-done-tag">✓ Completed</div>`
+    : `<div class="exam-cd">
+        <div class="cd-box"><div class="n" data-h="${ex.id}">${b.h}</div><div class="u">soat</div></div>
+        <div class="cd-box"><div class="n" data-m="${ex.id}">${b.m}</div><div class="u">daq</div></div>
+        <div class="cd-box"><div class="n" data-s="${ex.id}">${b.s}</div><div class="u">son</div></div>
+      </div>`;
+  return `<li class="exam-card${done?' completed':''}${isNear?' nearest':''}" style="--ecolor:${c.color}" draggable="true" data-id="${ex.id}">
+    ${ringOrTag}
+    <div class="exam-info">
+      <div class="exam-top"><span class="exam-icon">${c.icon}</span><span class="exam-name">${escapeHtml(ex.name)}</span><span class="exam-badge">${c.label}</span></div>
+      <div class="exam-date">${dateStr}</div>
+      ${body}
+    </div>
+    <div class="exam-actions">
+      <button class="icon-btn" data-eact="edit" data-id="${ex.id}" title="Tahrirlash">✎</button>
+      <button class="icon-btn danger" data-eact="del" data-id="${ex.id}" title="O'chirish">×</button>
+    </div>
+  </li>`;
+}
+function renderExams(){
+  renderExamDash(); renderExamStats(); renderExamCal();
+  const list=$('examList'), empty=$('examEmpty'); if(!list) return;
+  const items=examsFiltered();
+  if(!items.length){ list.innerHTML=''; empty.style.display='flex'; empty.querySelector('div:last-child').innerHTML = S.exams.length? 'Bu filtrga mos imtihon yo\'q.' : "Hali imtihon qo'shilmagan.<br>«+ Imtihon qo'shish» orqali birinchisini yarat."; }
+  else {
+    empty.style.display='none';
+    const near=nearestExam();
+    list.innerHTML=items.map(ex=>examCardHtml(ex, near&&ex.id===near.id&&examSort==='date'&&examFilter!=='completed')).join('');
+  }
+}
+function tickExams(){
+  // live update without rebuilding DOM
+  S.exams.forEach(ex=>{
+    const ms=examMs(ex); const b=breakdown(ms);
+    const dEl=document.querySelector(`[data-d="${ex.id}"]`); if(dEl) dEl.textContent=b.d;
+    const hEl=document.querySelector(`[data-h="${ex.id}"]`); if(hEl) hEl.textContent=b.h;
+    const mEl=document.querySelector(`[data-m="${ex.id}"]`); if(mEl) mEl.textContent=b.m;
+    const sEl=document.querySelector(`[data-s="${ex.id}"]`); if(sEl) sEl.textContent=b.s;
+    const ring=document.querySelector(`[data-ring="${ex.id}"]`);
+    if(ring){ const R=31,CIRC=2*Math.PI*R; ring.style.strokeDashoffset=(CIRC*(1-examProgress(ex)/100)).toFixed(1); }
+    // completion event -> confetti + sound, then re-render that card
+    if(ms<=0 && !examFired[ex.id]){
+      examFired[ex.id]=true;
+      if(document.querySelector(`.exam-card[data-id="${ex.id}"]`)){ burstConfetti(); try{ ensureAudio(); finishSound(); }catch(_){} renderExams(); }
+    }
+  });
+  // dashboard live bits
+  const near=nearestExam();
+  if(near){
+    const b=breakdown(examMs(near));
+    const dd=$('dashNearDays'); if(dd) dd.textContent=`${b.d} kun ${b.h} soat qoldi`;
+    const dr=$('dashRing'); if(dr){ const R=34,CIRC=2*Math.PI*R; dr.style.strokeDashoffset=(CIRC*(1-examProgress(near)/100)).toFixed(1); }
+    const dp=$('dashProg'); if(dp) dp.style.width=examProgress(near)+'%';
+  }
+}
+function startExamTicker(){ stopExamTicker(); tickExams(); examTicker=setInterval(tickExams,1000); }
+function stopExamTicker(){ if(examTicker){ clearInterval(examTicker); examTicker=null; } }
+
+/* ---- calendar ---- */
+function renderExamCal(){
+  const wrap=$('examCal'); if(!wrap) return;
+  const y=examCalMonth.getFullYear(), m=examCalMonth.getMonth();
+  $('ecLabel').textContent=UZ_MONTHS[m]+' '+y;
+  const dows=['Du','Se','Ch','Pa','Ju','Sh','Ya'];
+  let html=dows.map(d=>`<div class="ec-dow">${d}</div>`).join('');
+  const first=new Date(y,m,1); const lead=(first.getDay()+6)%7; // Mon=0
+  for(let i=0;i<lead;i++) html+='<div class="ec-day blank"></div>';
+  const days=new Date(y,m+1,0).getDate();
+  for(let dn=1;dn<=days;dn++){
+    const ds=`${y}-${pad(m+1)}-${pad(dn)}`;
+    const dayExams=S.exams.filter(e=>e.date===ds);
+    const isToday=ds===TODAY;
+    const dots=dayExams.slice(0,5).map(e=>`<span class="ec-dot" style="background:${getExamType(e.type).color}"></span>`).join('');
+    const title=dayExams.length?dayExams.map(e=>e.name).join(', '):'';
+    html+=`<div class="ec-day${isToday?' today':''}${dayExams.length?' has':''}" title="${escapeAttr(title)}">${dn}<div class="ec-dots">${dots}</div></div>`;
+  }
+  wrap.innerHTML=html;
+  $('examLegend').innerHTML=EXAM_TYPES.map(t=>`<span class="lg"><span class="d" style="background:${t.color}"></span>${t.label}</span>`).join('');
+}
+
+/* ---- form ---- */
+function showExamForm(ex){
+  const box=$('examForm'); box.hidden=false;
+  const isEdit=!!ex;
+  box.innerHTML=`
+    <div class="ef-row">
+      <input class="ef-name" type="text" placeholder="Imtihon nomi (masalan: SAT)" value="${ex?escapeAttr(ex.name):''}">
+      <select class="ef-type">${EXAM_TYPES.map(t=>`<option value="${t.key}" ${ex&&ex.type===t.key?'selected':''}>${t.icon} ${t.label}</option>`).join('')}</select>
+    </div>
+    <div class="ef-row">
+      <input class="ef-date" type="date" value="${ex?ex.date:''}">
+      <input class="ef-time" type="time" value="${ex&&ex.time?ex.time:''}">
+    </div>
+    <div class="ef-actions">
+      <button class="btn btn-primary" id="examSave">${isEdit?'Saqlash':'+ Qo\'shish'}</button>
+      <button class="btn btn-secondary" id="examCancel">Bekor</button>
+    </div>`;
+  editingExamId = ex?ex.id:null;
+  box.querySelector('.ef-name').focus();
+  $('examSave').onclick=()=>{
+    const name=box.querySelector('.ef-name').value.trim();
+    const date=box.querySelector('.ef-date').value;
+    if(!name){ box.querySelector('.ef-name').focus(); return; }
+    if(!date){ box.querySelector('.ef-date').focus(); return; }
+    const type=box.querySelector('.ef-type').value;
+    const time=box.querySelector('.ef-time').value||'';
+    if(editingExamId){
+      const e=S.exams.find(x=>x.id===editingExamId); if(e){ e.name=name; e.type=type; e.date=date; e.time=time; delete examFired[e.id]; }
+    } else {
+      S.exams.push({id:uid(),name,type,date,time,addedAt:Date.now()});
+    }
+    save(); box.hidden=true; editingExamId=null; renderExams();
+  };
+  $('examCancel').onclick=()=>{ box.hidden=true; editingExamId=null; };
+}
+$('examAddBtn').addEventListener('click',()=>{ if($('examForm').hidden) showExamForm(null); else { $('examForm').hidden=true; editingExamId=null; } });
+$('examList').addEventListener('click',e=>{
+  const b=e.target.closest('[data-eact]'); if(!b) return;
+  const id=b.dataset.id; const idx=S.exams.findIndex(x=>x.id===id); if(idx<0) return;
+  if(b.dataset.eact==='edit'){ showExamForm(S.exams[idx]); window.scrollTo({top:$('view-exams').offsetTop,behavior:'smooth'}); }
+  else if(b.dataset.eact==='del'){ if(confirm("Bu imtihon o'chirilsinmi?")){ S.exams.splice(idx,1); delete examFired[id]; save(); renderExams(); } }
+});
+$('examSearch').addEventListener('input',e=>{ examSearch=e.target.value; renderExams(); });
+$('examFilter').addEventListener('change',e=>{ examFilter=e.target.value; renderExams(); });
+$('examSort').addEventListener('change',e=>{ examSort=e.target.value; renderExams(); });
+$('ecPrev').addEventListener('click',()=>{ examCalMonth.setMonth(examCalMonth.getMonth()-1); renderExamCal(); });
+$('ecNext').addEventListener('click',()=>{ examCalMonth.setMonth(examCalMonth.getMonth()+1); renderExamCal(); });
+enableDnD($('examList'),'.exam-card',()=>S.exams,()=>{ save(); });
+
+/* ---- confetti ---- */
+function burstConfetti(){
+  let cv=$('confettiCanvas');
+  if(!cv){ cv=document.createElement('canvas'); cv.id='confettiCanvas'; document.body.appendChild(cv); }
+  const ctx=cv.getContext('2d'); const DPR=window.devicePixelRatio||1;
+  cv.width=innerWidth*DPR; cv.height=innerHeight*DPR; ctx.scale(DPR,DPR);
+  const colors=['#e8a33d','#4caf72','#4a90d9','#9b6dd1','#d9534f','#f0c674'];
+  const parts=[];
+  for(let i=0;i<140;i++) parts.push({x:innerWidth/2+(Math.random()-.5)*120,y:innerHeight/3,vx:(Math.random()-.5)*9,vy:Math.random()*-9-3,g:.28+Math.random()*.12,s:5+Math.random()*6,c:colors[i%colors.length],r:Math.random()*6,vr:(Math.random()-.5)*.4,life:0});
+  let frames=0;
+  (function anim(){
+    frames++; ctx.clearRect(0,0,cv.width,cv.height);
+    parts.forEach(p=>{ p.vy+=p.g; p.x+=p.vx; p.y+=p.vy; p.r+=p.vr; ctx.save(); ctx.translate(p.x,p.y); ctx.rotate(p.r); ctx.fillStyle=p.c; ctx.fillRect(-p.s/2,-p.s/2,p.s,p.s*.6); ctx.restore(); });
+    if(frames<150) requestAnimationFrame(anim); else { ctx.clearRect(0,0,cv.width,cv.height); cv.remove(); }
+  })();
+}
+$('tplList').addEventListener('change',e=>{
+  const sel=e.target.closest('.ed-rep'); if(!sel) return;
+  const dp=sel.closest('.edit-form').querySelector('.ed-days');
+  if(sel.value==='daily'){ tplEditDays=[0,1,2,3,4,5,6]; }
+  else if(sel.value==='weekdays'){ tplEditDays=[1,2,3,4,5]; }
+  // refresh day button states
+  dp.querySelectorAll('button[data-wd]').forEach(b=>b.classList.toggle('on',tplEditDays.includes(+b.dataset.wd)));
+  const custom=sel.value==='custom';
+  dp.style.opacity=custom?'1':'.4'; dp.style.pointerEvents=custom?'auto':'none';
+});
+
+/* ============ STATS render ============ */
+let statsMonth=new Date(); // tracks viewed month
+function renderStats(){
+  $('stStreak').textContent=currentStreak();
+  $('stBest').textContent=longestStreak();
+  const now=new Date();
+  $('stAvg').innerHTML=monthAvg(now.getFullYear(),now.getMonth())+'<small>%</small>';
+  $('stTotal').textContent=totalCompleted();
+  renderHeat(); renderBars14(); renderMonth(); renderHistory();
+}
+function heatColor(date){
+  const c=completion(date);
+  if(c.total===0) return 'var(--bg-elevated-2)';
+  if(c.pct>=100) return 'var(--done)';
+  if(c.pct>=STREAK_THRESHOLD) return 'color-mix(in srgb,var(--done) 55%,transparent)';
+  if(c.pct>0) return 'var(--done-soft)';
+  return 'var(--bg-elevated-2)';
+}
+function renderHeat(){
+  const wrap=$('heatmap'); wrap.innerHTML='';
+  const today=new Date(TODAY+'T00:00:00');
+  // align so each column is a week (Mon..Sun); go back 11 full weeks + this week
+  const end=new Date(today);
+  const start=new Date(today); start.setDate(start.getDate()-(11*7 + ((today.getDay()+6)%7)));
+  let col=null;
+  for(let d=new Date(start); d<=end; d.setDate(d.getDate()+1)){
+    const wd=(d.getDay()+6)%7; // 0=Mon
+    if(wd===0||!col){ col=document.createElement('div'); col.className='heat-col'; wrap.appendChild(col); }
+    const ds=isoDate(d);
+    const cell=document.createElement('div');
+    cell.className='heat-cell';
+    cell.style.background=heatColor(ds);
+    const c=completion(ds);
+    cell.title=`${d.getDate()} ${UZ_MONTHS[d.getMonth()]} — ${c.total?c.pct+'% ('+c.done+'/'+c.total+')':'ma\'lumot yo\'q'}`;
+    col.appendChild(cell);
+  }
+}
+function renderBars14(){
+  const wrap=$('bars14'); wrap.innerHTML='';
+  const today=new Date(TODAY+'T00:00:00');
+  for(let i=13;i>=0;i--){
+    const d=new Date(today); d.setDate(d.getDate()-i);
+    const ds=isoDate(d); const c=completion(ds); const isToday=ds===TODAY;
+    let cls='bar', h;
+    if(c.total===0){ cls+=' nodata'; h='4px'; }
+    else { if(c.pct>=100) cls+=' full'; else if(c.pct>=STREAK_THRESHOLD) cls+=' ok'; h=Math.max(6,Math.round(c.pct/100*100))+'%'; }
+    if(isToday) cls+=' today';
+    const tip=`${d.getDate()} ${UZ_MONTHS[d.getMonth()]} — ${c.total? c.pct+'% ('+c.done+'/'+c.total+')' : "ma'lumot yo'q"}`;
+    const col=document.createElement('div'); col.className='bar-col';
+    col.innerHTML=`<div class="bar-val">${c.total?c.pct+'%':''}</div>
+      <div class="bar-track"><div class="${cls}" style="height:${h}" title="${tip}"></div></div>
+      <div class="bar-lab${isToday?' today':''}">${d.getDate()}</div>`;
+    wrap.appendChild(col);
+  }
+}
+function renderMonth(){
+  const y=statsMonth.getFullYear(), m=statsMonth.getMonth();
+  $('mLabel').textContent=UZ_MONTHS[m]+' '+y;
+  const dates=monthDates(y,m);
+  const agg={}; CATEGORIES.forEach(c=>agg[c.key]={planned:0,done:0,count:0,doneCount:0});
+  let any=false;
+  dates.forEach(ds=>{
+    const d=S.days[ds]; if(!d) return;
+    d.tasks.forEach(t=>{
+      any=true; const k=agg[t.category]?t.category:'self';
+      agg[k].planned+=(+t.durMin||0); agg[k].count++;
+      if(t.done){ agg[k].done+=(+t.durMin||0); agg[k].doneCount++; }
+    });
+  });
+  const box=$('catBreak'), empty=$('catEmpty');
+  if(!any){ box.innerHTML=''; empty.style.display='flex'; return; }
+  empty.style.display='none';
+  const maxCount=Math.max(1,...CATEGORIES.map(c=>agg[c.key].count));
+  box.innerHTML=CATEGORIES.map(c=>{
+    const a=agg[c.key]; if(!a.count) return '';
+    const pct=Math.round(a.doneCount/a.count*100);
+    const w=Math.round(a.count/maxCount*100);
+    const timeNote=a.planned?` · ${fmtDur(a.done)}/${fmtDur(a.planned)}`:'';
+    return `<div class="catbar">
+      <div class="catbar-top">
+        <span class="name"><span class="cat-dot" style="background:${c.color}"></span>${c.label}</span>
+        <span class="val">${a.doneCount}/${a.count} ish · ${pct}%${timeNote}</span>
+      </div>
+      <div class="catbar-track"><div class="catbar-fill" style="width:${w}%;background:${c.color}"></div></div>
+    </div>`;
+  }).join('');
+}
+$('mPrev').addEventListener('click',()=>{ statsMonth.setMonth(statsMonth.getMonth()-1); renderMonth(); });
+$('mNext').addEventListener('click',()=>{ statsMonth.setMonth(statsMonth.getMonth()+1); renderMonth(); });
+
+/* ---- daily history (yilnoma) ---- */
+function historyDetail(ds){
+  const day=S.days[ds]; if(!day||!day.tasks.length) return '<span style="color:var(--text-muted);font-size:12px">Ish yo\'q</span>';
+  const tasks=`<ul class="h-tasks">${day.tasks.map(t=>{
+    const c=getCat(t.category);
+    return `<li class="${t.done?'y':'n'}"><span class="mk ${t.done?'y':'n'}">${t.done?'✓':'✗'}</span>
+      <span class="cat-dot" style="background:${c.color}"></span>
+      <span class="lbl">${escapeHtml(t.label)}</span>
+      ${t.time?`<span style="font-family:var(--font-display);color:var(--text-muted);font-size:11px">${t.time}</span>`:''}
+      ${t.carriedFrom?'<span class="carried-badge">↩</span>':''}</li>`;
+  }).join('')}</ul>`;
+  return tasks+`<div class="h-detail-actions">
+    <button class="btn btn-secondary" data-hact="loadday" data-date="${ds}" style="padding:7px 12px;font-size:12px">↧ Bugunga yuklash</button>
+    <button class="btn btn-secondary" data-hact="saveday" data-date="${ds}" style="padding:7px 12px;font-size:12px">💾 Qutiga saqlash</button>
+  </div>`;
+}
+function renderHistory(){
+  const table=$('historyTable'), empty=$('historyEmpty');
+  const dates=Object.keys(S.days).filter(d=>S.days[d].tasks&&S.days[d].tasks.length).sort().reverse();
+  if(!dates.length){ table.innerHTML=''; empty.style.display='block'; return; }
+  empty.style.display='none';
+  let html='<thead><tr><th>Sana</th><th>Bajarilish</th><th>Ishlar</th><th>Holat</th></tr></thead><tbody>';
+  dates.forEach(ds=>{
+    const c=completion(ds);
+    const d=new Date(ds+'T00:00:00');
+    const color = c.pct===100?'var(--done)' : c.pct>=STREAK_THRESHOLD?'var(--accent)' : c.pct>0?'var(--danger)':'var(--text-muted)';
+    let badge,bcls;
+    if(c.pct===100){ badge='✓ To\'liq'; bcls='full'; }
+    else if(c.pct>=STREAK_THRESHOLD){ badge='◑ Bajarildi'; bcls='ok'; }
+    else if(c.pct>0){ badge='△ Qisman'; bcls='part'; }
+    else { badge='✗ Bo\'sh'; bcls='zero'; }
+    const isToday = ds===TODAY;
+    html+=`<tr class="hrow" data-date="${ds}">
+      <td><span class="h-date">${d.getDate()} ${UZ_MONTHS[d.getMonth()].slice(0,4)}${isToday?' <span style="color:var(--accent)">•</span>':''}<small>${UZ_WEEK[d.getDay()]}</small></span></td>
+      <td><div class="h-prog"><span class="h-arrow">▸</span><div class="bar2"><i style="width:${c.pct}%;background:${color}"></i></div><span class="h-pct">${c.pct}%</span></div></td>
+      <td><span class="h-cell-tasks">${c.done}/${c.total}</span></td>
+      <td><span class="h-badge ${bcls}">${badge}</span></td>
+    </tr>
+    <tr class="h-detail" data-detail="${ds}" style="display:none"><td colspan="4">${historyDetail(ds)}</td></tr>`;
+  });
+  html+='</tbody>';
+  table.innerHTML=html;
+}
+$('historyTable').addEventListener('click',e=>{
+  const hb=e.target.closest('[data-hact]');
+  if(hb){
+    e.stopPropagation();
+    const ds=hb.dataset.date; const day=S.days[ds]; if(!day) return;
+    if(hb.dataset.hact==='loadday'){
+      const today=getDay(TODAY);
+      day.tasks.forEach(t=>today.tasks.push({id:uid(),tplId:null,label:t.label,time:t.time||'',category:t.category,durMin:+t.durMin||0,done:false}));
+      today.ordered=true; save(); renderToday();
+      document.querySelector('.nav button[data-tab="today"]').click();
+    } else if(hb.dataset.hact==='saveday'){
+      const d=new Date(ds+'T00:00:00');
+      savePlanFrom(day.tasks, `${d.getDate()} ${UZ_MONTHS[d.getMonth()]} rejasi`);
+    }
+    return;
+  }
+  const row=e.target.closest('.hrow'); if(!row) return;
+  const ds=row.dataset.date;
+  const det=$('historyTable').querySelector('tr.h-detail[data-detail="'+ds+'"]');
+  if(!det) return;
+  const open=det.style.display!=='none';
+  det.style.display=open?'none':'table-row';
+  row.classList.toggle('open',!open);
+});
+
+/* export / import / reset */
+$('exportBtn').addEventListener('click',()=>{
+  const blob=new Blob([JSON.stringify(S,null,2)],{type:'application/json'});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob);
+  a.download='fokus-zaxira-'+TODAY+'.json'; a.click(); URL.revokeObjectURL(a.href);
+});
+$('importBtn').addEventListener('click',()=>$('importFile').click());
+$('importFile').addEventListener('change',e=>{
+  const f=e.target.files[0]; if(!f) return;
+  const r=new FileReader();
+  r.onload=()=>{ try{ const data=JSON.parse(r.result); if(data&&data.days){ S=data; S.theme=S.theme||'dark'; save(); location.reload(); } else alert('Fayl mos emas.'); }catch(err){ alert('Faylni o\'qib bo\'lmadi.'); } };
+  r.readAsText(f);
+});
+$('resetBtn').addEventListener('click',()=>{
+  if(confirm("Barcha ma'lumot o'chiriladi. Davom etilsinmi?")){ S=blank(); save(); location.reload(); }
+});
+
+/* ============================================================
+   SEQUENTIAL TIMER  (adapted from original file)
+============================================================ */
+const T={ queue:[], mode:'build', currentIndex:-1, remaining:0, stageEnd:0, pausedRemaining:0, paused:false, timerId:null };
+let audioCtx=null;
+function ensureAudio(){ if(!audioCtx) audioCtx=new (window.AudioContext||window.webkitAudioContext)(); if(audioCtx.state==='suspended') audioCtx.resume(); return audioCtx; }
+/* soft bell tone with a shimmering partial and a long natural decay */
+function bell(freq,start,dur,vol){
+  try{
+    const ctx=ensureAudio(); const t=ctx.currentTime+(start||0);
+    const o=ctx.createOscillator(), o2=ctx.createOscillator(), g=ctx.createGain(), g2=ctx.createGain();
+    o.type='sine'; o.frequency.value=freq;
+    o2.type='sine'; o2.frequency.value=freq*2.005; g2.gain.value=0.34;
+    o.connect(g); o2.connect(g2); g2.connect(g); g.connect(ctx.destination);
+    g.gain.setValueAtTime(0.0001,t);
+    g.gain.exponentialRampToValueAtTime(vol,t+0.012);
+    g.gain.exponentialRampToValueAtTime(0.0001,t+dur);
+    o.start(t); o2.start(t); o.stop(t+dur+0.05); o2.stop(t+dur+0.05);
+  }catch(e){}
+}
+/* ~5s gentle chime — a stage's set time is up */
+function stageEndSound(){
+  const n=[523.25,659.25,783.99,1046.50]; // C5 E5 G5 C6
+  n.forEach((f,i)=>bell(f,i*0.16,2.4,0.30));
+  bell(783.99,2.0,3.0,0.20);
+  bell(1046.50,2.4,3.2,0.17);
+  bell(659.25,3.2,2.6,0.12);
+}
+/* ~5s richer chime — the whole sequence is finished */
+function finishSound(){
+  const seq=[[523.25,0],[659.25,.18],[783.99,.36],[1046.50,.56],[1318.51,.82]];
+  seq.forEach(([f,t])=>bell(f,t,2.8,0.30));
+  bell(1046.50,1.5,3.4,0.22);
+  bell(1567.98,2.0,3.2,0.16);
+  bell(1318.51,3.0,3.0,0.12);
+}
+/* short soft cue — timer started (vaqt belgilandi) */
+function startCue(){ bell(659.25,0,0.6,0.22); bell(987.77,0.12,0.7,0.18); }
+function fmtClock(s){ s=Math.max(0,Math.round(s)); const h=Math.floor(s/3600),m=Math.floor(s%3600/60),x=s%60; return h>0?`${h}:${pad(m)}:${pad(x)}`:`${pad(m)}:${pad(x)}`; }
+
+const buildView=$('buildView'),runView=$('runView');
+const minInput=$('minInput'),secInput=$('secInput'),labelInput=$('labelInput');
+const queueList=$('queueList'),queueEmpty=$('queueEmpty'),totalSummary=$('totalSummary'),clearAllBtn=$('clearAllBtn'),startBtn=$('startBtn');
+const stageProgressLabel=$('stageProgressLabel'),bigClock=$('bigClock'),stageLabel=$('stageLabel'),totalRemaining=$('totalRemaining'),track=$('track');
+const runControls=$('runControls'),doneControls=$('doneControls');
+const pauseBtn=$('pauseBtn'),skipBtn=$('skipBtn'),stopBtn=$('stopBtn'),restartBtn=$('restartBtn'),editBtn=$('editBtn');
+const pipBtn=$('pipBtn'),pipNotice=$('pipNotice'),miniHome=$('miniHome'),miniPanel=$('miniPanel');
+const miniClock=$('miniClock'),miniLabel=$('miniLabel'),miniProgress=$('miniProgress'),miniBarFill=$('miniBarFill'),miniPauseBtn=$('miniPauseBtn'),miniSkipBtn=$('miniSkipBtn');
+
+if(Array.isArray(S.timerQueue)) T.queue=S.timerQueue.map(s=>({id:uid(),label:s.label||'',total:s.total}));
+function persistQueue(){ S.timerQueue=T.queue.map(s=>({label:s.label,total:s.total})); save(); }
+
+function addStage(min,sec,label){ const total=min*60+sec; if(total<=0) return false; T.queue.push({id:uid(),label:(label||'').trim(),total}); renderQueue(); persistQueue(); return true; }
+let editingStageId=null;
+function renderQueue(){
+  queueList.innerHTML='';
+  if(!T.queue.length){ queueEmpty.style.display='flex'; }
+  else{
+    queueEmpty.style.display='none';
+    T.queue.forEach((s,i)=>{
+      const li=document.createElement('li'); li.className='queue-item'; li.dataset.id=s.id;
+      if(editingStageId===s.id){
+        li.classList.add('editing');
+        const mm=Math.floor(s.total/60), ss=s.total%60;
+        li.innerHTML=`<div class="edit-form">
+          <div class="ed-row">
+            <input class="qe-min" type="number" min="0" max="999" value="${mm}" placeholder="daq">
+            <input class="qe-sec" type="number" min="0" max="59" value="${ss}" placeholder="sek">
+            <input class="qe-label" type="text" value="${escapeAttr(s.label||'')}" placeholder="Nom (ixtiyoriy)">
+          </div>
+          <div class="ed-actions">
+            <button class="btn btn-primary" data-act="qsave" data-id="${s.id}">Saqlash</button>
+            <button class="btn btn-secondary" data-act="qcancel" data-id="${s.id}">Bekor</button>
+          </div>
+        </div>`;
+      } else {
+        li.setAttribute('draggable','true');
+        li.innerHTML=`<span class="qi-grip" title="Ushlab torting">⠿</span>
+          <span class="qi-index">${i+1}</span>
+          <span class="qi-time">${fmtClock(s.total)}</span>
+          <span class="qi-label">${s.label?escapeHtml(s.label):'<span style="opacity:.5;font-style:italic">nomsiz</span>'}</span>
+          <span class="t-actions">
+            <button class="icon-btn" data-act="qedit" data-id="${s.id}" aria-label="Tahrirlash">✎</button>
+            <button class="icon-btn danger" data-act="remove" data-id="${s.id}" aria-label="O'chirish">×</button>
+          </span>`;
+      }
+      queueList.appendChild(li);
+    });
+  }
+  const all=T.queue.reduce((a,s)=>a+s.total,0);
+  totalSummary.textContent=T.queue.length?`Jami: ${fmtClock(all)} • ${T.queue.length} bosqich`:'';
+  clearAllBtn.style.display=T.queue.length?'inline':'none';
+  startBtn.disabled=T.queue.length===0;
+}
+$('addBtn').addEventListener('click',()=>{
+  const m=Math.max(0,Math.min(999,parseInt(minInput.value||'0',10)||0));
+  const s=Math.max(0,Math.min(59,parseInt(secInput.value||'0',10)||0));
+  if(addStage(m,s,labelInput.value)){ minInput.value='';secInput.value='';labelInput.value='';minInput.focus(); }
+});
+[minInput,secInput,labelInput].forEach(inp=>inp.addEventListener('keydown',e=>{ if(e.key==='Enter'){e.preventDefault();$('addBtn').click();} }));
+document.querySelectorAll('.chip').forEach(c=>c.addEventListener('click',()=>{ if(c.dataset.sec) addStage(0,+c.dataset.sec,''); else addStage(+c.dataset.min,0,''); }));
+
+queueList.addEventListener('click',e=>{
+  const b=e.target.closest('button[data-act]'); if(!b) return;
+  const id=b.dataset.id; const idx=T.queue.findIndex(s=>s.id===id);
+  const act=b.dataset.act;
+  if(act==='qcancel'){ editingStageId=null; renderQueue(); return; }
+  if(act==='qsave'){
+    if(idx<0) return;
+    const form=b.closest('.edit-form');
+    const m=Math.max(0,Math.min(999,parseInt(form.querySelector('.qe-min').value||'0',10)||0));
+    const sc=Math.max(0,Math.min(59,parseInt(form.querySelector('.qe-sec').value||'0',10)||0));
+    const total=m*60+sc;
+    if(total<=0){ form.querySelector('.qe-min').focus(); return; }
+    T.queue[idx].total=total;
+    T.queue[idx].label=(form.querySelector('.qe-label').value||'').trim();
+    editingStageId=null; renderQueue(); persistQueue(); return;
+  }
+  if(idx<0) return;
+  if(act==='remove'){ T.queue.splice(idx,1); editingStageId=null; }
+  else if(act==='qedit'){ editingStageId=id; renderQueue();
+    const inp=queueList.querySelector('.editing .qe-min'); if(inp) inp.focus(); return; }
+  renderQueue(); persistQueue();
+});
+
+/* ----- drag & drop reordering (shared helper) ----- */
+enableDnD(queueList,'.queue-item',()=>T.queue,()=>{ renderQueue(); persistQueue(); });
+
+clearAllBtn.addEventListener('click',()=>{ T.queue=[]; editingStageId=null; renderQueue(); persistQueue(); });
+
+$('loadTodayBtn').addEventListener('click',()=>{
+  const day=getDay(TODAY);
+  const items=day.tasks.filter(t=>(+t.durMin||0)>0);
+  if(!items.length){ alert("Bugungi rejada davomiyligi (daqiqa) belgilangan ish yo'q. «Bugun» bo'limida ishlarga daqiqa qo'sh."); return; }
+  T.queue=items.map(t=>({id:uid(),label:t.label,total:(+t.durMin||0)*60}));
+  renderQueue(); persistQueue();
+});
+
+function toggleTimerViews(){ if(T.mode==='build'){ buildView.hidden=false; runView.hidden=true; } else { buildView.hidden=true; runView.hidden=false; } }
+function beginRun(){
+  T.mode='run'; toggleTimerViews();
+  T.currentIndex=0; T.paused=false;
+  T.stageEnd=Date.now()+T.queue[0].total*1000;
+  T.remaining=T.queue[0].total;
+  clearInterval(T.timerId); T.timerId=setInterval(tick,250);
+  renderRun();
+}
+function startSequence(){ if(!T.queue.length) return; ensureAudio(); startCue(); beginRun(); }
+function tick(){ if(T.paused||T.mode!=='run') return; catchUp(); }
+/* advance through every stage whose real-clock end has already passed —
+   keeps the timer correct even if the tab was in the background or the
+   laptop was asleep; on return it jumps to the right stage and rings */
+function catchUp(){
+  if(T.mode!=='run'||T.paused) return;
+  const now=Date.now(); let advanced=false;
+  while(T.mode==='run' && now>=T.stageEnd){
+    const next=T.currentIndex+1;
+    if(next<T.queue.length){ stageEndSound(); T.currentIndex=next; T.stageEnd+=T.queue[next].total*1000; advanced=true; }
+    else { finishAll(); return; }
+  }
+  T.remaining=Math.max(0,Math.round((T.stageEnd-now)/1000));
+  if(advanced) renderRun(); else updateClock();
+}
+function finishAll(){ T.mode='done'; clearInterval(T.timerId); finishSound(); renderRun(); }
+function pauseResume(){
+  if(T.mode!=='run') return;
+  if(!T.paused){ T.paused=true; T.pausedRemaining=Math.max(0,Math.round((T.stageEnd-Date.now())/1000)); clearInterval(T.timerId); }
+  else { T.paused=false; T.stageEnd=Date.now()+T.pausedRemaining*1000; clearInterval(T.timerId); T.timerId=setInterval(tick,250); }
+  pauseBtn.textContent=T.paused?'▶ Davom':'⏸ Pauza'; miniPauseBtn.textContent=T.paused?'▶':'⏸';
+}
+function skipStage(){
+  if(T.mode!=='run') return;
+  const next=T.currentIndex+1;
+  if(next<T.queue.length){ T.currentIndex=next; T.stageEnd=Date.now()+T.queue[next].total*1000; T.remaining=T.queue[next].total; renderRun(); }
+  else finishAll();
+}
+pauseBtn.addEventListener('click',pauseResume); miniPauseBtn.addEventListener('click',pauseResume);
+skipBtn.addEventListener('click',skipStage);
+miniSkipBtn.addEventListener('click',skipStage);
+/* re-sync the moment the tab/screen comes back (background, tab switch, wake) */
+document.addEventListener('visibilitychange',()=>{ if(!document.hidden && T.mode==='run' && !T.paused){ ensureAudio(); catchUp(); } });
+window.addEventListener('focus',()=>{ if(T.mode==='run' && !T.paused){ ensureAudio(); catchUp(); } });
+window.addEventListener('pageshow',()=>{ if(T.mode==='run' && !T.paused){ ensureAudio(); catchUp(); } });
+function stopToEdit(){ clearInterval(T.timerId); T.mode='build'; T.currentIndex=-1; T.paused=false; pauseBtn.textContent='⏸ Pauza'; miniPauseBtn.textContent='⏸'; if('documentPictureInPicture' in window && window.documentPictureInPicture.window) window.documentPictureInPicture.window.close(); toggleTimerViews(); }
+stopBtn.addEventListener('click',stopToEdit); editBtn.addEventListener('click',stopToEdit);
+restartBtn.addEventListener('click',()=>{ ensureAudio(); startCue(); beginRun(); });
+startBtn.addEventListener('click',startSequence);
+
+async function togglePip(){
+  pipNotice.hidden=true;
+  if(!('documentPictureInPicture' in window)){ pipNotice.textContent="Bu funksiya Chrome, Edge va so'nggi Firefox'da ishlaydi. Faylni yuklab olib brauzerda to'g'ridan-to'g'ri och."; pipNotice.hidden=false; return; }
+  if(window.documentPictureInPicture.window){ window.documentPictureInPicture.window.close(); return; }
+  try{
+    const pip=await window.documentPictureInPicture.requestWindow({width:280,height:170});
+    [...document.styleSheets].forEach(sheet=>{ try{ const css=[...sheet.cssRules].map(r=>r.cssText).join(''); const st=document.createElement('style'); st.textContent=css; pip.document.head.appendChild(st);}catch(e){} });
+    pip.document.documentElement.dataset.theme=S.theme;
+    pip.document.documentElement.style.height='100%';
+    pip.document.body.style.cssText='margin:0;height:100%;overflow:hidden;';
+    pip.document.body.appendChild(miniPanel); miniPanel.style.display='flex';
+    pipBtn.textContent='↩ Qaytarish'; updateMini();
+    pip.addEventListener('pagehide',()=>{ miniHome.appendChild(miniPanel); miniPanel.style.display='none'; pipBtn.textContent='📌 Burchakka chiqarish'; },{once:true});
+  }catch(err){ pipNotice.textContent="Kichik oynani ochib bo'lmadi. Faylni yuklab olib brauzerda och."; pipNotice.hidden=false; }
+}
+pipBtn.addEventListener('click',togglePip);
+
+function renderRun(){
+  track.innerHTML='';
+  T.queue.forEach((s,i)=>{
+    if(i>0){ const conn=document.createElement('div'); conn.className='connector'+((i<=T.currentIndex||T.mode==='done')?' done':''); track.appendChild(conn); }
+    const isDone=T.mode==='done'||i<T.currentIndex;
+    const isActive=!isDone&&i===T.currentIndex&&T.mode==='run';
+    const st=document.createElement('div'); st.className='station'+(isDone?' done':'')+(isActive?' active':'');
+    st.innerHTML=`<div class="dot">${isDone?'✓':(i+1)}</div><div class="meta">${fmtClock(s.total)}${s.label?'<br>'+escapeHtml(s.label):''}</div>`;
+    track.appendChild(st);
+  });
+  if(T.mode==='done'){
+    stageProgressLabel.textContent=`${T.queue.length}/${T.queue.length} bosqich`;
+    stageLabel.textContent='Barcha bosqichlar yakunlandi';
+    bigClock.textContent='✓'; bigClock.classList.add('done-state'); totalRemaining.textContent='';
+    runControls.hidden=true; doneControls.hidden=false;
+  } else {
+    bigClock.classList.remove('done-state');
+    stageProgressLabel.textContent=`${T.currentIndex+1}/${T.queue.length} bosqich`;
+    const cur=T.queue[T.currentIndex];
+    stageLabel.textContent=cur.label||`Bosqich ${T.currentIndex+1}`;
+    skipBtn.textContent=T.currentIndex===T.queue.length-1?'⏭ Yakunlash':'⏭ Keyingisi';
+    updateClock(); runControls.hidden=false; doneControls.hidden=true;
+  }
+  updateMini();
+}
+function updateClock(){
+  bigClock.textContent=fmtClock(T.remaining);
+  if(T.queue.length>1){ const future=T.queue.slice(T.currentIndex+1).reduce((a,s)=>a+s.total,0); totalRemaining.textContent=`Hammasi tugashiga: ${fmtClock(T.remaining+future)}`; }
+  else totalRemaining.textContent='';
+  updateMini();
+}
+function updateMini(){
+  if(T.mode==='done'){ miniClock.textContent='✓'; miniClock.classList.add('mini-done'); miniLabel.textContent='Tugadi'; miniProgress.textContent=`${T.queue.length}/${T.queue.length}`; miniBarFill.style.width='100%'; }
+  else if(T.currentIndex>=0){ miniClock.classList.remove('mini-done'); miniClock.textContent=fmtClock(T.remaining); miniLabel.textContent=T.queue[T.currentIndex].label||`Bosqich ${T.currentIndex+1}`; miniProgress.textContent=`${T.currentIndex+1}/${T.queue.length}`; const tot=T.queue[T.currentIndex].total; miniBarFill.style.width=(tot>0?Math.min(100,Math.max(0,(1-T.remaining/tot)*100)):0)+'%'; }
+  miniPauseBtn.textContent=T.paused?'▶':'⏸';
+}
+
+/* ============ init ============ */
+applyTheme();
+seedToday();
+renderToday();
+renderTemplates();
+renderPlans();
+renderQueue();
+renderExams();
+toggleTimerViews();
+})();
+</script>
+
+
+</body></html>

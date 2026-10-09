@@ -1,0 +1,10 @@
+node_modules
+dist
+data
+backups
+output
+.git
+.env
+.env.*
+docs
+tests

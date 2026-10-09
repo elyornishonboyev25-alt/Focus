@@ -1,0 +1,19 @@
+{
+  "id": "/",
+  "name": "Daily System",
+  "short_name": "Daily System",
+  "description": "Daily plans, focused study and exam dates.",
+  "start_url": "/today",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#f5f6f0",
+  "theme_color": "#10251d",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
